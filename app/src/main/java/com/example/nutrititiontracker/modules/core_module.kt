@@ -4,6 +4,7 @@ import android.content.Context
 import android.content.SharedPreferences
 import androidx.room.Room
 import com.example.nutrititiontracker.BuildConfig
+import com.example.nutrititiontracker.data.local.db.Database
 import com.squareup.moshi.Moshi
 import com.squareup.moshi.adapters.Rfc3339DateJsonAdapter
 import okhttp3.OkHttpClient
@@ -22,7 +23,9 @@ val coreModule = module {
         androidApplication().getSharedPreferences(androidApplication().packageName, Context.MODE_PRIVATE)
     }
 
-//    single { Room.databaseBuilder(androidContext(),) }
+    single { Room.databaseBuilder(androidContext(),Database::class.java, "UserDB")
+        .fallbackToDestructiveMigration()
+        .build()}
 
     single { createRetrofit(moshi = get(), httpClient = get()) }
 

@@ -2,6 +2,7 @@ package com.example.nutrititiontracker.application
 
 import android.app.Application
 import com.example.nutrititiontracker.modules.coreModule
+import com.example.nutrititiontracker.modules.userModule
 import org.koin.android.ext.koin.androidContext
 import org.koin.android.ext.koin.androidFileProperties
 import org.koin.android.ext.koin.androidLogger
@@ -18,7 +19,8 @@ class App : Application() {
 
     private fun init() {
         val modules = listOf(
-            coreModule
+            coreModule,
+            userModule
         )
         startKoin{
             androidLogger(Level.ERROR)
@@ -27,5 +29,6 @@ class App : Application() {
             fragmentFactory()
             modules(modules)
         }
+
     }
 }
