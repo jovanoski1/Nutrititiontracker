@@ -32,7 +32,17 @@ class MainViewModel(
     }
 
     override fun getUser(username: String, password: String) {
-        TODO("Not yet implemented")
+        val subscription = userRepository
+            .getUser(username, password)
+            .subscribeOn(Schedulers.io())
+            .observeOn(AndroidSchedulers.mainThread())
+            .subscribe({
+//                println("$it logged")
+                loggedUser.value = it
+            },{
+                println(it)
+            })
+        subscriptions.add(subscription)
     }
 
     override fun onCleared() {

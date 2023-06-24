@@ -1,3 +1,10 @@
 <resources>
     <string name="app_name">Nutritition tracker</string>
+    <string name="enter_username">Enter username</string>
+    <string name="email_can_t_be_empty">Email can\'t be empty!</string>
+    <string name="enter_email">Enter email</string>
+    <string name="username_can_t_be_empty">Username can\'t be empty!</string>
+    <string name="enter_password">Enter password</string>
+    <string name="password_can_t_be_empty">Password can\'t be empty!</string>
+    <string name="login">Login</string>
 </resources>
