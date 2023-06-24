@@ -2,19 +2,43 @@ package com.example.nutrititiontracker.presentation.view.activities
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import com.example.nutrititiontracker.R
-import com.example.nutrititiontracker.data.models.UserEntity
-import com.example.nutrititiontracker.presentation.view.contract.MainContract
-import com.example.nutrititiontracker.presentation.view.viewmodel.MainViewModel
+import androidx.core.view.isVisible
+import androidx.lifecycle.Observer
+import com.example.nutrititiontracker.databinding.ActivityMainBinding
+import com.example.nutrititiontracker.presentation.contract.MainContract
+import com.example.nutrititiontracker.presentation.view.states.CategoriesState
+import com.example.nutrititiontracker.presentation.viewmodel.MainViewModel
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class MainActivity : AppCompatActivity() {
-    //private val mainViewModel: MainContract.ViewModel by viewModel<MainViewModel>()
+    private lateinit var binding: ActivityMainBinding
+
+    private val mainViewModel: MainContract.ViewModel by viewModel<MainViewModel>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
+        binding = ActivityMainBinding.inflate(layoutInflater)
 
-        //mainViewModel.insertUser(UserEntity(1,"miha","miha123"))
+
+        setContentView(binding.root)
+
+        mainViewModel.fetchAllCategories()
+
+        mainViewModel.categoriesState.observe(this, Observer {
+            when(it){
+                is CategoriesState.Success ->{
+                    binding.loadingPb.isVisible = false
+                    println(it.categories)
+                }
+                is CategoriesState.Loading ->{
+                    binding.loadingPb.isVisible = true
+                }
+                else -> {
+                    println("CEKAJ")
+                    binding.loadingPb.isVisible = false
+
+                }
+            }
+        })
     }
 }

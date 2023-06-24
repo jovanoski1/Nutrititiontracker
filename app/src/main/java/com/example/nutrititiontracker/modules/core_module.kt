@@ -41,7 +41,7 @@ fun createMoshi() : Moshi{
 
 fun createRetrofit(moshi: Moshi, httpClient: OkHttpClient):Retrofit {
     return Retrofit.Builder()
-        .baseUrl("https://www.themealdb.com/api.php")
+        .baseUrl("https://www.themealdb.com/api/json/v1/1/")
         .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
         .addConverterFactory(MoshiConverterFactory.create(moshi).asLenient())
         .client(httpClient)

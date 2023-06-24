@@ -5,10 +5,9 @@ import android.content.SharedPreferences
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import androidx.lifecycle.Observer
-import com.example.nutrititiontracker.R
 import com.example.nutrititiontracker.databinding.ActivityLoginBinding
-import com.example.nutrititiontracker.presentation.view.contract.MainContract
-import com.example.nutrititiontracker.presentation.view.viewmodel.MainViewModel
+import com.example.nutrititiontracker.presentation.contract.MainContract
+import com.example.nutrititiontracker.presentation.viewmodel.MainViewModel
 import org.koin.android.ext.android.inject
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
