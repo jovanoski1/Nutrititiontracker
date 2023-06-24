@@ -1,7 +1,7 @@
 package com.example.nutrititiontracker.presentation.view.contract
 
 import androidx.lifecycle.LiveData
-import com.example.nutrititiontracker.data.local.models.UserEntity
+import com.example.nutrititiontracker.data.models.UserEntity
 
 interface MainContract {
 

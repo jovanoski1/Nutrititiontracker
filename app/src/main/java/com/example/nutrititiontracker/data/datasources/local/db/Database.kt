@@ -1,9 +1,9 @@
-package com.example.nutrititiontracker.data.local.db
+package com.example.nutrititiontracker.data.datasources.local.db
 
 import androidx.room.Database
 import androidx.room.RoomDatabase
-import com.example.nutrititiontracker.data.local.datasources.UserDao
-import com.example.nutrititiontracker.data.local.models.UserEntity
+import com.example.nutrititiontracker.data.datasources.local.UserDao
+import com.example.nutrititiontracker.data.models.UserEntity
 
 @Database(
     entities = [UserEntity::class],

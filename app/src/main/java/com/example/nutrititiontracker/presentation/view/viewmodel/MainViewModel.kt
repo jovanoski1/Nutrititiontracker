@@ -3,8 +3,8 @@ package com.example.nutrititiontracker.presentation.view.viewmodel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.example.nutrititiontracker.data.local.models.UserEntity
-import com.example.nutrititiontracker.data.local.repository.UserRepository
+import com.example.nutrititiontracker.data.models.UserEntity
+import com.example.nutrititiontracker.data.repository.UserRepository
 import com.example.nutrititiontracker.presentation.view.contract.MainContract
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable

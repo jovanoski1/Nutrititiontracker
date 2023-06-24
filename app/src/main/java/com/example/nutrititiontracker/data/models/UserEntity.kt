@@ -1,4 +1,4 @@
-package com.example.nutrititiontracker.data.local.models
+package com.example.nutrititiontracker.data.models
 
 import androidx.room.Entity
 import androidx.room.PrimaryKey
