@@ -6,15 +6,17 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import androidx.lifecycle.Observer
 import com.example.nutrititiontracker.databinding.ActivityLoginBinding
-import com.example.nutrititiontracker.presentation.contract.MainContract
-import com.example.nutrititiontracker.presentation.viewmodel.MainViewModel
+import com.example.nutrititiontracker.presentation.contract.CategoriesContract
+import com.example.nutrititiontracker.presentation.contract.UserContract
+import com.example.nutrititiontracker.presentation.viewmodel.CategoriesViewModel
+import com.example.nutrititiontracker.presentation.viewmodel.UserViewModel
 import org.koin.android.ext.android.inject
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class LoginActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityLoginBinding
-    private val mainViewModel: MainContract.ViewModel by viewModel<MainViewModel>()
+    private val userViewModel: UserContract.ViewModel by viewModel<UserViewModel>()
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -30,8 +32,8 @@ class LoginActivity : AppCompatActivity() {
         binding.loginBtn.setOnClickListener {
             val username: String = binding.editTextUsername.text.toString()
             val password: String = binding.editTextPassword.text.toString()
-            mainViewModel.getUser(username, password)
-            mainViewModel.loggedUser.observe(this, Observer {
+            userViewModel.getUser(username, password)
+            userViewModel.loggedUser.observe(this, Observer {
                 if (it != null){
                     val sharedPreferences: SharedPreferences by inject()
                     val editor = sharedPreferences.edit()

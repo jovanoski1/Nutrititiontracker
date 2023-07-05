@@ -1,26 +1,21 @@
 package com.example.nutrititiontracker.presentation.viewmodel
 
-import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.example.nutrititiontracker.data.models.CategoriesResponse
 import com.example.nutrititiontracker.data.models.Resource
 import com.example.nutrititiontracker.data.models.UserEntity
 import com.example.nutrititiontracker.data.repository.MealRepository
 import com.example.nutrititiontracker.data.repository.UserRepository
-import com.example.nutrititiontracker.presentation.contract.MainContract
+import com.example.nutrititiontracker.presentation.contract.CategoriesContract
 import com.example.nutrititiontracker.presentation.view.states.CategoriesState
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.schedulers.Schedulers
 
-class MainViewModel(
-    private val userRepository: UserRepository,
+class CategoriesViewModel(
     private val mealRepository: MealRepository
-): ViewModel(), MainContract.ViewModel {
+): ViewModel(), CategoriesContract.ViewModel {
 
-    override val loggedUser: MutableLiveData<UserEntity> = MutableLiveData()
-    override val categories: MutableLiveData<List<CategoriesResponse>> = MutableLiveData()
     override val categoriesState: MutableLiveData<CategoriesState> = MutableLiveData()
 
     private val subscriptions = CompositeDisposable()
@@ -39,31 +34,6 @@ class MainViewModel(
                 }
             },{
                 categoriesState.value =CategoriesState.Error("Error happened while fetching data from the server")
-            })
-    }
-    override fun insertUser(userEntity: UserEntity) {
-        val subscription = userRepository
-            .insertUser(userEntity)
-            .subscribeOn(Schedulers.io())
-            .observeOn(AndroidSchedulers.mainThread())
-            .subscribe({
-                println("USPESNO DODATO U BAZU")
-            },{
-                println("ERROR")
-            })
-        subscriptions.add(subscription)
-    }
-
-    override fun getUser(username: String, password: String) {
-        val subscription = userRepository
-            .getUser(username, password)
-            .subscribeOn(Schedulers.io())
-            .observeOn(AndroidSchedulers.mainThread())
-            .subscribe({
-//                println("$it logged")
-                loggedUser.value = it
-            },{
-                println(it)
             })
         subscriptions.add(subscription)
     }

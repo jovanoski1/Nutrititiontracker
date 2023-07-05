@@ -1,6 +1,7 @@
 package com.example.nutrititiontracker.application
 
 import android.app.Application
+import com.example.nutrititiontracker.modules.categoriesModule
 import com.example.nutrititiontracker.modules.coreModule
 import com.example.nutrititiontracker.modules.mealModule
 import com.example.nutrititiontracker.modules.userModule
@@ -22,7 +23,8 @@ class App : Application() {
         val modules = listOf(
             coreModule,
             userModule,
-            mealModule
+            mealModule,
+            categoriesModule
         )
         startKoin{
             androidLogger(Level.ERROR)

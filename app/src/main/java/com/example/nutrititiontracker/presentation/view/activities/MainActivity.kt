@@ -5,15 +5,15 @@ import android.os.Bundle
 import androidx.core.view.isVisible
 import androidx.lifecycle.Observer
 import com.example.nutrititiontracker.databinding.ActivityMainBinding
-import com.example.nutrititiontracker.presentation.contract.MainContract
+import com.example.nutrititiontracker.presentation.contract.CategoriesContract
 import com.example.nutrititiontracker.presentation.view.states.CategoriesState
-import com.example.nutrititiontracker.presentation.viewmodel.MainViewModel
+import com.example.nutrititiontracker.presentation.viewmodel.CategoriesViewModel
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class MainActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding
 
-    private val mainViewModel: MainContract.ViewModel by viewModel<MainViewModel>()
+    private val categoriesViewModel: CategoriesContract.ViewModel by viewModel<CategoriesViewModel>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -22,9 +22,9 @@ class MainActivity : AppCompatActivity() {
 
         setContentView(binding.root)
 
-        mainViewModel.fetchAllCategories()
+        categoriesViewModel.fetchAllCategories()
 
-        mainViewModel.categoriesState.observe(this, Observer {
+        categoriesViewModel.categoriesState.observe(this, Observer {
             when(it){
                 is CategoriesState.Success ->{
                     binding.loadingPb.isVisible = false
@@ -34,7 +34,7 @@ class MainActivity : AppCompatActivity() {
                     binding.loadingPb.isVisible = true
                 }
                 else -> {
-                    println("CEKAJ")
+                    println("CEKAJ $it")
                     binding.loadingPb.isVisible = false
 
                 }
