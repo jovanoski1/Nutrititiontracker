@@ -101,4 +101,8 @@ dependencies {
     implementation "com.squareup.moshi:moshi-adapters:$moshiVersion"
     // Do not update codegen version it will produce compile error when used with moshi retrofit converter!
     kapt "com.squareup.moshi:moshi-kotlin-codegen:$moshiVersion"
+
+    // Picasso
+    implementation 'com.squareup.picasso:picasso:2.71828'
+
 }

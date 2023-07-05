@@ -7,5 +7,5 @@ import retrofit2.http.GET
 interface CategoryService {
 
     @GET("categories.php")
-    fun getAllCategories() : Observable<List<CategoriesResponse>>
+    fun getAllCategories() : Observable<CategoriesResponse>
 }
