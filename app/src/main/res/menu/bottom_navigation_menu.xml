@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/categoryPage"
+        android:enabled="true"
+        android:icon="@drawable/category"
+        android:title="Category"
+        />
+    <item
+        android:id="@+id/filterPage"
+        android:enabled="true"
+        android:icon="@drawable/filter"
+        android:title="Filter"
+        />
+    <item
+        android:id="@+id/myMealsPage"
+        android:enabled="true"
+        android:icon="@drawable/dinner"
+        android:title="My Meals"
+        />
+
+
+</menu>
