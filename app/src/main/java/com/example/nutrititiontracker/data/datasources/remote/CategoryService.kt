@@ -4,7 +4,7 @@ import com.example.nutrititiontracker.data.models.CategoriesResponse
 import io.reactivex.Observable
 import retrofit2.http.GET
 
-interface MealService {
+interface CategoryService {
 
     @GET("categories.php")
     fun getAllCategories() : Observable<List<CategoriesResponse>>

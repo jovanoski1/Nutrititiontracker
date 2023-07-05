@@ -4,6 +4,6 @@ import com.example.nutrititiontracker.data.models.CategoriesResponse
 import com.example.nutrititiontracker.data.models.Resource
 import io.reactivex.Observable
 
-interface MealRepository {
+interface CategoryRepository {
     fun fetchAllCategories(): Observable<Resource<List<CategoriesResponse>>>
 }

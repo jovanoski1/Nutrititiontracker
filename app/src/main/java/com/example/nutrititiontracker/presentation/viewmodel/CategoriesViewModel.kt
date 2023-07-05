@@ -3,9 +3,7 @@ package com.example.nutrititiontracker.presentation.viewmodel
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.example.nutrititiontracker.data.models.Resource
-import com.example.nutrititiontracker.data.models.UserEntity
-import com.example.nutrititiontracker.data.repository.MealRepository
-import com.example.nutrititiontracker.data.repository.UserRepository
+import com.example.nutrititiontracker.data.repository.CategoryRepository
 import com.example.nutrititiontracker.presentation.contract.CategoriesContract
 import com.example.nutrititiontracker.presentation.view.states.CategoriesState
 import io.reactivex.android.schedulers.AndroidSchedulers
@@ -13,7 +11,7 @@ import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.schedulers.Schedulers
 
 class CategoriesViewModel(
-    private val mealRepository: MealRepository
+    private val categoryRepository: CategoryRepository
 ): ViewModel(), CategoriesContract.ViewModel {
 
     override val categoriesState: MutableLiveData<CategoriesState> = MutableLiveData()
@@ -21,7 +19,7 @@ class CategoriesViewModel(
     private val subscriptions = CompositeDisposable()
 
     override fun fetchAllCategories() {
-        val subscription = mealRepository
+        val subscription = categoryRepository
             .fetchAllCategories()
             .startWith(Resource.Loading())
             .subscribeOn(Schedulers.io())
