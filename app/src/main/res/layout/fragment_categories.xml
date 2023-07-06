@@ -17,11 +17,54 @@
         app:layout_constraintEnd_toEndOf="parent"
         android:visibility="gone"/>
 
-<!--    <TextView-->
-<!--        android:layout_width="match_parent"-->
-<!--        android:layout_height="match_parent"-->
-<!--        android:text="Categories Fragment"-->
-<!--        android:textSize="42dp"/>-->
+    <TextView
+        android:id="@+id/tv1"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:text="Search by:"
+        android:textSize="22dp"/>
+
+    <LinearLayout
+        android:id="@+id/linear1"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintTop_toBottomOf="@id/tv1"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginTop="10sp">
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/newobligation_lowbtn"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:text="Main Ingredient"
+            android:layout_weight="1"
+            android:textColor="@color/black"/>
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/newobligation_midbtn"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:text="Meal name"
+            android:layout_weight="1"
+            android:textColor="@color/black"/>
+
+    </LinearLayout>
+
+    <EditText
+        android:id="@+id/searchMainPageEt"
+        android:layout_width="match_parent"
+        android:layout_height="48dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/linear1"
+        android:paddingStart="15dp"
+        android:paddingEnd="15dp"
+        android:textSize="22sp"
+        android:hint="Search"
+        />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/listRv"
@@ -29,7 +72,7 @@
         android:layout_height="0dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/searchMainPageEt"
         app:layout_constraintBottom_toBottomOf="parent"
         />
 
