@@ -12,9 +12,12 @@ import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.nutrititiontracker.R
 import com.example.nutrititiontracker.data.models.CategoriesResponse
+import com.example.nutrititiontracker.data.models.CategoryResponse
 import com.example.nutrititiontracker.databinding.FragmentCategoriesBinding
 import com.example.nutrititiontracker.presentation.contract.CategoriesContract
+import com.example.nutrititiontracker.presentation.view.dialogs.CategoryDetailsDialog
 import com.example.nutrititiontracker.presentation.view.recycler.adapter.CategoryAdapter
+import com.example.nutrititiontracker.presentation.view.recycler.listeners.CategoryClickListener
 import com.example.nutrititiontracker.presentation.view.states.CategoriesState
 import com.example.nutrititiontracker.presentation.viewmodel.CategoriesViewModel
 import org.koin.androidx.viewmodel.ext.android.viewModel
@@ -56,7 +59,12 @@ class CategoriesFragment : Fragment(R.layout.fragment_categories) {
 
     private fun initUi(){
         binding.listRv.layoutManager = LinearLayoutManager(context)
-        adapter = CategoryAdapter()
+        adapter = CategoryAdapter(categoryClickListener = object : CategoryClickListener{
+            override fun onDetailsClick(categoryResponse: CategoryResponse) {
+                println(categoryResponse.strCategory+" kliknuo")
+                CategoryDetailsDialog(categoryResponse).show(parentFragmentManager, "Category details dialog")
+            }
+        })
         binding.listRv.adapter = adapter
 
 //        val category1 = CategoriesResponse(1,"prokic","aaa","aaqwe")
