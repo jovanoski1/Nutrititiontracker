@@ -10,4 +10,13 @@ interface MealService {
     @GET("search.php?")
     fun getMealsByFirstLetter(@Query("f") f:Char): Observable<MealsResponse>
 
+    @GET("filter.php?")
+    fun getMealsByCategory(@Query("c") c:String): Observable<MealsResponse>
+
+    @GET("filter.php?")
+    fun getMealsByMainIngredient(@Query("i") i:String): Observable<MealsResponse>
+
+    @GET("filter.php?")
+    fun getMealsByArea(@Query("a") a:String): Observable<MealsResponse>
+
 }

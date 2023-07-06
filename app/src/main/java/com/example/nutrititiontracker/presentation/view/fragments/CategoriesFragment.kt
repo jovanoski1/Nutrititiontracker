@@ -55,7 +55,7 @@ class CategoriesFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         categoriesViewModel.fetchAllCategories()
-        mealsViewModel.fetchAllMealsByFirstLetter()
+        //mealsViewModel.fetchAllMealsByArea("Canadian")
 
         initUi()
         initObservers()
@@ -106,7 +106,7 @@ class CategoriesFragment : Fragment() {
             when(it){
                 is MealsState.Success ->{
                     binding.loadingPb.isVisible = false
-                    println( "${it.meals.size} " + it.meals[0].strMeal)
+                    println( it.meals.toString())
                 }
                 is MealsState.Loading ->{
                     binding.loadingPb.isVisible = true

@@ -12,7 +12,6 @@ class MealRepositoryImpl(
     private val mealService: MealService
 ):MealRepository {
 
-    @SuppressLint("CheckResult")
     override fun fetchMealsByFirstLetter(c:Char): Observable<Resource<List<MealResponse>>> {
         return mealService
             .getMealsByFirstLetter(c)
@@ -20,5 +19,28 @@ class MealRepositoryImpl(
                 Resource.Success(it.meals)
             }
     }
+
+    override fun fetchMealsByCategory(c: String): Observable<Resource<List<MealResponse>>> {
+        return mealService
+            .getMealsByCategory(c)
+            .map {
+                Resource.Success(it.meals)
+            }
+    }
+
+    override fun fetchMealsByMainIngredient(c: String): Observable<Resource<List<MealResponse>>> {
+        return mealService
+            .getMealsByMainIngredient(c)
+            .map {
+                Resource.Success(it.meals)
+            }
+    }
+
+    override fun fetchMealsByArea(c: String): Observable<Resource<List<MealResponse>>> {
+        return mealService
+            .getMealsByArea(c)
+            .map {
+                Resource.Success(it.meals)
+            }    }
 
 }

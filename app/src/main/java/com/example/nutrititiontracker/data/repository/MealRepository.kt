@@ -9,4 +9,10 @@ import io.reactivex.Observable
 interface MealRepository {
 
     fun fetchMealsByFirstLetter(c:Char): Observable<Resource<List<MealResponse>>>
+
+    fun fetchMealsByCategory(c:String): Observable<Resource<List<MealResponse>>>
+
+    fun fetchMealsByMainIngredient(c:String): Observable<Resource<List<MealResponse>>>
+
+    fun fetchMealsByArea(c:String): Observable<Resource<List<MealResponse>>>
 }
