@@ -15,17 +15,22 @@ import com.example.nutrititiontracker.data.models.CategoriesResponse
 import com.example.nutrititiontracker.data.models.CategoryResponse
 import com.example.nutrititiontracker.databinding.FragmentCategoriesBinding
 import com.example.nutrititiontracker.presentation.contract.CategoriesContract
+import com.example.nutrititiontracker.presentation.contract.MealsContract
 import com.example.nutrititiontracker.presentation.view.dialogs.CategoryDetailsDialog
 import com.example.nutrititiontracker.presentation.view.recycler.adapter.CategoryAdapter
 import com.example.nutrititiontracker.presentation.view.recycler.listeners.CategoryClickListener
 import com.example.nutrititiontracker.presentation.view.states.CategoriesState
+import com.example.nutrititiontracker.presentation.view.states.MealsState
 import com.example.nutrititiontracker.presentation.viewmodel.CategoriesViewModel
+import com.example.nutrititiontracker.presentation.viewmodel.MealsViewModel
+import org.koin.androidx.viewmodel.ext.android.sharedViewModel
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 
-class CategoriesFragment : Fragment(R.layout.fragment_categories) {
+class CategoriesFragment : Fragment() {
 
-    private val categoriesViewModel: CategoriesContract.ViewModel by viewModel<CategoriesViewModel>()
+    private val categoriesViewModel: CategoriesContract.ViewModel by sharedViewModel<CategoriesViewModel>()
+    private val mealsViewModel: MealsContract.ViewModel by sharedViewModel<MealsViewModel>()
 
 
     private var _binding: FragmentCategoriesBinding? = null
@@ -50,6 +55,7 @@ class CategoriesFragment : Fragment(R.layout.fragment_categories) {
         super.onViewCreated(view, savedInstanceState)
 
         categoriesViewModel.fetchAllCategories()
+        mealsViewModel.fetchAllMealsByFirstLetter()
 
         initUi()
         initObservers()
@@ -96,6 +102,22 @@ class CategoriesFragment : Fragment(R.layout.fragment_categories) {
             }
         })
 
+        mealsViewModel.mealState.observe(this, Observer {
+            when(it){
+                is MealsState.Success ->{
+                    binding.loadingPb.isVisible = false
+                    println( "${it.meals.size} " + it.meals[0].strMeal)
+                }
+                is MealsState.Loading ->{
+                    binding.loadingPb.isVisible = true
+                }
+                else -> {
+                    println("CEKAJ Meals $it")
+                    binding.loadingPb.isVisible = false
+
+                }
+            }
+        })
     }
 
     override fun onDestroy() {
