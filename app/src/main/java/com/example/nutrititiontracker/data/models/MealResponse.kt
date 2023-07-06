@@ -6,7 +6,7 @@ import com.squareup.moshi.JsonClass
 @JsonClass(generateAdapter = true)
 data class MealResponse (
     val idMeal: Long,
-    val strMeal: String?,
+    val strMeal: String,
     val strDrinkAlternate: String?,
     val strCategory:String?,
     val strArea: String?,

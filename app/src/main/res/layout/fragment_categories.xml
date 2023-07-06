@@ -37,7 +37,7 @@
         android:layout_marginTop="10sp">
 
         <androidx.appcompat.widget.AppCompatButton
-            android:id="@+id/newobligation_lowbtn"
+            android:id="@+id/mainIngredientMainPageBtn"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:text="Main Ingredient"
@@ -45,7 +45,7 @@
             android:textColor="@color/black"/>
 
         <androidx.appcompat.widget.AppCompatButton
-            android:id="@+id/newobligation_midbtn"
+            android:id="@+id/mealNameMainPageBtn"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:text="Meal name"
