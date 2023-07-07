@@ -1,6 +1,8 @@
 package com.example.nutrititiontracker.presentation.view.fragments
 
 import android.os.Bundle
+import android.text.Editable
+import android.text.TextWatcher
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -24,6 +26,7 @@ class MealListFragment : Fragment() {
     private var meals:MutableList<MealResponse> = mutableListOf()
     private var maxPageCnt: Int = 0
     private var currentPage: Int = 1
+    private var mainIngredientMealNameToggle: Boolean = false
 
     private var _binding: FragmentMealListBinding? = null
     private val binding get() = _binding!!
@@ -66,12 +69,14 @@ class MealListFragment : Fragment() {
         mealsViewModel.mealState.observe(this, Observer {
             when(it){
                 is MealsState.Success ->{
-                    binding.loadingPbMl.isVisible = false
-//                    mealAdapter.submitList(it.meals)
-                    meals.addAll(it.meals)
-                    mealAdapter.submitList(meals.subList(0,10))
+                    val lock = Object()
+                    synchronized(lock){
+                        meals.clear()
+                        meals.addAll(it.meals)
+                        mealAdapter.submitList(it.meals.subList(0, Math.min(10, it.meals.size)))
+                    }
                     maxPageCnt = it.meals.size/10 + 1
-//                    println( it.meals.toString())
+                    binding.loadingPbMl.isVisible = false
                     binding.listRv.isVisible = true
                 }
                 is MealsState.Loading ->{
@@ -80,6 +85,8 @@ class MealListFragment : Fragment() {
                 }
                 else -> {
                     println("CEKAJ Meals $it")
+                    meals.clear()
+                    mealAdapter.submitList(meals)
                     binding.loadingPbMl.isVisible = false
                     binding.listRv.isVisible = true
                 }
@@ -103,6 +110,37 @@ class MealListFragment : Fragment() {
                 ))
                 binding.pageCntMealListTv.text = currentPage.toString()
             }
+        }
+
+        binding.searchMealListPageEt.addTextChangedListener(object : TextWatcher {
+            override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
+
+            }
+
+            override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
+            }
+
+            override fun afterTextChanged(p0: Editable?) {
+                if (mainIngredientMealNameToggle){
+                    mealsViewModel.fetchAllMealsByMainIngredient(p0.toString())
+                }
+                else{
+                    mealsViewModel.fetchMealByName(p0.toString())
+//                    if (p0.toString().length == 1)
+//                        mealsViewModel.fetchAllMealsByFirstLetter(p0.toString()[0])
+//                    else {
+//                        mealsViewModel.fetchMealByName(p0.toString())
+//                    }
+                }
+            }
+
+        })
+
+        binding.mealNameMealListPageBtn.setOnClickListener {
+            mainIngredientMealNameToggle = false
+        }
+        binding.mainIngredientMealListPageBtn.setOnClickListener{
+            mainIngredientMealNameToggle = true
         }
     }
 }

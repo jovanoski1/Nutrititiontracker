@@ -15,4 +15,6 @@ interface MealRepository {
     fun fetchMealsByMainIngredient(c:String): Observable<Resource<List<MealResponse>>>
 
     fun fetchMealsByArea(c:String): Observable<Resource<List<MealResponse>>>
+
+    fun fetchMealByName(c:String): Observable<Resource<List<MealResponse>>>
 }

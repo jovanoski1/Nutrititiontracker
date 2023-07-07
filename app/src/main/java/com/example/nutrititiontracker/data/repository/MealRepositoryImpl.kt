@@ -41,6 +41,14 @@ class MealRepositoryImpl(
             .getMealsByArea(c)
             .map {
                 Resource.Success(it.meals)
-            }    }
+            }
+    }
 
+    override fun fetchMealByName(c: String): Observable<Resource<List<MealResponse>>> {
+        return mealService
+            .getMealByName(c)
+            .map {
+                Resource.Success(it.meals)
+            }
+    }
 }

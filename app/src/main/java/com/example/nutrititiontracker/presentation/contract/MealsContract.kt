@@ -14,5 +14,6 @@ interface MealsContract {
         fun fetchAllMealsByMainIngredient(str:String)
         fun fetchAllMealsByArea(str:String)
 
+        fun fetchMealByName(str:String)
     }
 }

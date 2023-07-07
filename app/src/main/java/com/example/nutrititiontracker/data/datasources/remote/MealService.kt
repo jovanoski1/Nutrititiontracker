@@ -1,5 +1,6 @@
 package com.example.nutrititiontracker.data.datasources.remote
 
+import com.example.nutrititiontracker.data.models.MealResponse
 import com.example.nutrititiontracker.data.models.MealsResponse
 import io.reactivex.Observable
 import retrofit2.http.GET
@@ -19,4 +20,6 @@ interface MealService {
     @GET("filter.php?")
     fun getMealsByArea(@Query("a") a:String): Observable<MealsResponse>
 
+    @GET("search.php?")
+    fun getMealByName(@Query("s") s:String): Observable<MealsResponse>
 }
