@@ -2,9 +2,7 @@ package com.example.nutrititiontracker.data.repository
 
 
 import com.example.nutrititiontracker.data.datasources.remote.CategoryService
-import com.example.nutrititiontracker.data.models.CategoriesResponse
-import com.example.nutrititiontracker.data.models.CategoryResponse
-import com.example.nutrititiontracker.data.models.Resource
+import com.example.nutrititiontracker.data.models.*
 import io.reactivex.Observable
 
 class CategoryRepositoryImpl(
@@ -19,6 +17,20 @@ class CategoryRepositoryImpl(
 //            }
             .map{
                 Resource.Success(it.categories)
+            }
+    }
+
+    override fun fetchAllAreas(): Observable<Resource<List<AreaResponse>>> {
+        return categoryService.getAllAreas()
+            .map{
+                Resource.Success(it.meals)
+            }
+    }
+
+    override fun fetchAllIngredients(): Observable<Resource<List<IngredientResponse>>> {
+        return categoryService.getAllIngredients()
+            .map{
+                Resource.Success(it.meals)
             }
     }
 
