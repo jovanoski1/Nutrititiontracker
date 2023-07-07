@@ -90,15 +90,6 @@ class CategoriesFragment : Fragment() {
         mealAdapter = MealAdapter()
 
         binding.listRv.adapter = categoryAdapter
-
-//        val category1 = CategoriesResponse(1,"prokic","aaa","aaqwe")
-//
-//        val category2 = CategoriesResponse(2,"miha","aaa","aaqwe")
-//
-//        val category3 = CategoriesResponse(3,"zare","aaa","aaqwe")
-
-
-//        adapter.submitList(listOf(category1, category2, category3))
     }
 
     private fun initObservers(){

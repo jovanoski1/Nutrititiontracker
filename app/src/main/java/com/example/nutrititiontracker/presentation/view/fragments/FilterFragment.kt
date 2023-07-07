@@ -28,6 +28,8 @@ import com.example.nutrititiontracker.presentation.viewmodel.CategoriesViewModel
 import com.example.nutrititiontracker.presentation.viewmodel.MealsViewModel
 import org.koin.androidx.viewmodel.ext.android.sharedViewModel
 import org.koin.androidx.viewmodel.ext.android.viewModel
+import java.util.*
+import kotlin.math.min
 
 
 class FilterFragment : Fragment() {
@@ -35,8 +37,11 @@ class FilterFragment : Fragment() {
     private val binding get() = _binding!!
 
     private val categoriesViewModel: CategoriesContract.ViewModel by viewModel<CategoriesViewModel>()
-    private val mealsViewModel: MealsContract.ViewModel by viewModel<MealsViewModel>()
+    private val mealsViewModel: MealsContract.ViewModel by sharedViewModel<MealsViewModel>()
 
+    private var meals:MutableList<MealResponse> = mutableListOf()
+    private var maxPageCnt: Int = 0
+    private var currentPage: Int = 1
 
     private var areas:MutableList<AreaResponse> = mutableListOf()
     private var ingredients:MutableList<IngredientResponse> = mutableListOf()
@@ -110,6 +115,23 @@ class FilterFragment : Fragment() {
         binding.ingredientBtn.setOnClickListener{
             binding.spinner.adapter = ingredientSpinnerAdapter
         }
+
+        binding.previousBtn.setOnClickListener{
+            if (currentPage > 1){
+                currentPage --
+
+                mealsAdapter.submitList(meals.subList((currentPage - 1) * 10, currentPage * 10))
+                binding.pageCntMealListTv.text = currentPage.toString()
+            }
+        }
+        binding.nextBtn.setOnClickListener{
+            if (currentPage < maxPageCnt){
+                currentPage++
+                mealsAdapter.submitList(meals.subList((currentPage - 1) * 10, meals.size.coerceAtMost(currentPage * 10)))
+                binding.pageCntMealListTv.text = currentPage.toString()
+            }
+        }
+
     }
     private fun initObservers(){
         mealsViewModel.mealState.observe(this, Observer {
@@ -117,8 +139,14 @@ class FilterFragment : Fragment() {
                 is MealsState.Success ->{
                     binding.loadingPbMl.isVisible = false
                     binding.listRv.isVisible = true
-                    println(it.meals)
                     mealsAdapter.submitList(it.meals)
+
+                    meals = it.meals.toMutableList()
+                    mealsAdapter.submitList(meals.subList(0, min(10, meals.size)))
+                    currentPage = 1
+                    binding.pageCntMealListTv.text = currentPage.toString()
+
+                    maxPageCnt = it.meals.size/10 + 1
                 }
                 is MealsState.Loading ->{
                     binding.loadingPbMl.isVisible = true
