@@ -16,5 +16,9 @@ class CategoryViewHolder(private val itemBinding: CategoryListItemBinding) : Rec
         itemBinding.detailsIv.setOnClickListener {
             clickListener.onDetailsClick(category)
         }
+
+        itemBinding.root.setOnClickListener{
+            clickListener.onCategoryClick(category)
+        }
     }
 }

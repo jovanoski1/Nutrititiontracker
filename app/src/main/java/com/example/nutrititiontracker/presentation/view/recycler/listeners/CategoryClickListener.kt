@@ -4,4 +4,6 @@ import com.example.nutrititiontracker.data.models.CategoryResponse
 
 interface CategoryClickListener {
     fun onDetailsClick(categoryResponse: CategoryResponse)
+
+    fun onCategoryClick(categoryResponse: CategoryResponse)
 }

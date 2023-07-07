@@ -8,4 +8,4 @@ data class CategoryResponse(
     val strCategory: String,
     val strCategoryThumb:String,
     val strCategoryDescription: String,
-)
+):java.io.Serializable

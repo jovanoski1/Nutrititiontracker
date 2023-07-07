@@ -7,9 +7,11 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.os.bundleOf
 import androidx.core.view.isVisible
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.example.nutrititiontracker.R
 import com.example.nutrititiontracker.data.models.CategoryResponse
 import com.example.nutrititiontracker.databinding.FragmentCategoriesBinding
 import com.example.nutrititiontracker.presentation.contract.CategoriesContract
@@ -67,6 +69,18 @@ class CategoriesFragment : Fragment() {
             override fun onDetailsClick(categoryResponse: CategoryResponse) {
                 println(categoryResponse.strCategory+" kliknuo")
                 CategoryDetailsDialog(categoryResponse).show(parentFragmentManager, "Category details dialog")
+            }
+
+            override fun onCategoryClick(categoryResponse: CategoryResponse) {
+//                println("Kliknuo na sve")
+                val transaction = parentFragmentManager.beginTransaction()
+                val bundle = Bundle().apply {
+                    putSerializable("categorySelected", categoryResponse)
+                }
+                val fragment = MealListFragment()
+                fragment.arguments = bundle
+                transaction.replace(R.id.container, fragment)
+                transaction.commit()
             }
         })
 
