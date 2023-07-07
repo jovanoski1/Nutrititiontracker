@@ -1,6 +1,8 @@
 package com.example.nutrititiontracker.presentation.view.fragments
 
 import android.os.Bundle
+import android.text.Editable
+import android.text.TextWatcher
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -84,6 +86,19 @@ class FilterFragment : Fragment() {
 
     private fun initListeners(){
 
+        binding.searchMealListPageEt.addTextChangedListener(object : TextWatcher {
+            override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
+
+            }
+
+            override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
+            }
+
+            override fun afterTextChanged(p0: Editable?) {
+                    mealsViewModel.fetchMealByName(p0.toString())
+                }
+        })
+
         binding.spinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener{
             override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
                 val adapter = binding.spinner.adapter
@@ -139,7 +154,7 @@ class FilterFragment : Fragment() {
                 is MealsState.Success ->{
                     binding.loadingPbMl.isVisible = false
                     binding.listRv.isVisible = true
-                    mealsAdapter.submitList(it.meals)
+//                    mealsAdapter.submitList(it.meals)
 
                     meals = it.meals.toMutableList()
                     mealsAdapter.submitList(meals.subList(0, min(10, meals.size)))

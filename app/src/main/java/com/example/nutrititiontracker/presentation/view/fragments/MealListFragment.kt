@@ -18,9 +18,11 @@ import com.example.nutrititiontracker.presentation.view.recycler.adapter.MealAda
 import com.example.nutrititiontracker.presentation.view.states.MealsState
 import com.example.nutrititiontracker.presentation.viewmodel.MealsViewModel
 import org.koin.androidx.viewmodel.ext.android.sharedViewModel
+import org.koin.androidx.viewmodel.ext.android.viewModel
+import kotlin.math.min
 
 class MealListFragment : Fragment() {
-    private val mealsViewModel: MealsContract.ViewModel by sharedViewModel<MealsViewModel>()
+    private val mealsViewModel: MealsContract.ViewModel by viewModel<MealsViewModel>()
 
     private lateinit var mealAdapter: MealAdapter
     private var meals:MutableList<MealResponse> = mutableListOf()
@@ -71,9 +73,10 @@ class MealListFragment : Fragment() {
                 is MealsState.Success ->{
                     val lock = Object()
                     synchronized(lock){
-                        meals.clear()
-                        meals.addAll(it.meals)
-                        mealAdapter.submitList(it.meals.subList(0, Math.min(10, it.meals.size)))
+                        meals = it.meals.toMutableList()
+                        mealAdapter.submitList(meals.subList(0, min(10, meals.size)))
+                        currentPage = 1
+                        binding.pageCntMealListTv.text = currentPage.toString()
                     }
                     maxPageCnt = it.meals.size/10 + 1
                     binding.loadingPbMl.isVisible = false
@@ -85,8 +88,8 @@ class MealListFragment : Fragment() {
                 }
                 else -> {
                     println("CEKAJ Meals $it")
-                    meals.clear()
-                    mealAdapter.submitList(meals)
+//                    meals.clear()
+//                    mealAdapter.submitList(meals)
                     binding.loadingPbMl.isVisible = false
                     binding.listRv.isVisible = true
                 }
