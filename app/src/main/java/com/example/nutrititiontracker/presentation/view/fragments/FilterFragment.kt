@@ -5,8 +5,11 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.AdapterView
 import androidx.core.view.isVisible
 import androidx.lifecycle.Observer
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView.LayoutManager
 import com.example.nutrititiontracker.R
 import com.example.nutrititiontracker.data.models.AreaResponse
 import com.example.nutrititiontracker.data.models.CategoryResponse
@@ -15,22 +18,25 @@ import com.example.nutrititiontracker.data.models.MealResponse
 import com.example.nutrititiontracker.databinding.FragmentCategoriesBinding
 import com.example.nutrititiontracker.databinding.FragmentFilterBinding
 import com.example.nutrititiontracker.presentation.contract.CategoriesContract
-import com.example.nutrititiontracker.presentation.view.recycler.adapter.AreaSpinnerAdapter
-import com.example.nutrititiontracker.presentation.view.recycler.adapter.CategoryAdapter
-import com.example.nutrititiontracker.presentation.view.recycler.adapter.CategorySpinnerAdapter
-import com.example.nutrititiontracker.presentation.view.recycler.adapter.IngredientSpinnerAdapter
+import com.example.nutrititiontracker.presentation.contract.MealsContract
+import com.example.nutrititiontracker.presentation.view.recycler.adapter.*
 import com.example.nutrititiontracker.presentation.view.states.AreasState
 import com.example.nutrititiontracker.presentation.view.states.CategoriesState
 import com.example.nutrititiontracker.presentation.view.states.IngredientsState
+import com.example.nutrititiontracker.presentation.view.states.MealsState
 import com.example.nutrititiontracker.presentation.viewmodel.CategoriesViewModel
+import com.example.nutrititiontracker.presentation.viewmodel.MealsViewModel
 import org.koin.androidx.viewmodel.ext.android.sharedViewModel
+import org.koin.androidx.viewmodel.ext.android.viewModel
 
 
 class FilterFragment : Fragment() {
     private var _binding: FragmentFilterBinding? = null
     private val binding get() = _binding!!
 
-    private val categoriesViewModel: CategoriesContract.ViewModel by sharedViewModel<CategoriesViewModel>()
+    private val categoriesViewModel: CategoriesContract.ViewModel by viewModel<CategoriesViewModel>()
+    private val mealsViewModel: MealsContract.ViewModel by viewModel<MealsViewModel>()
+
 
     private var areas:MutableList<AreaResponse> = mutableListOf()
     private var ingredients:MutableList<IngredientResponse> = mutableListOf()
@@ -39,6 +45,7 @@ class FilterFragment : Fragment() {
     private lateinit var categorySpinnerAdapter: CategorySpinnerAdapter
     private lateinit var areaSpinnerAdapter: AreaSpinnerAdapter
     private lateinit var ingredientSpinnerAdapter: IngredientSpinnerAdapter
+    private lateinit var mealsAdapter: MealAdapter
 
 
 
@@ -58,6 +65,10 @@ class FilterFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        binding.listRv.layoutManager = LinearLayoutManager(context)
+        mealsAdapter = MealAdapter()
+        binding.listRv.adapter = mealsAdapter
+
         initObservers()
         initListeners()
 
@@ -67,6 +78,29 @@ class FilterFragment : Fragment() {
     }
 
     private fun initListeners(){
+
+        binding.spinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener{
+            override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
+                val adapter = binding.spinner.adapter
+                if (adapter is CategorySpinnerAdapter) {
+                    val selectedItem = adapter.getItem(position) as CategoryResponse
+                    mealsViewModel.fetchAllMealsByCategory(selectedItem.strCategory)
+
+                } else if (adapter is AreaSpinnerAdapter) {
+                    val selectedItem = adapter.getItem(position) as AreaResponse
+                    mealsViewModel.fetchAllMealsByArea(selectedItem.strArea)
+                }
+                else if (adapter is IngredientSpinnerAdapter) {
+                    val selectedItem = adapter.getItem(position) as IngredientResponse
+                    mealsViewModel.fetchAllMealsByMainIngredient(selectedItem.strIngredient)
+                }
+            }
+
+            override fun onNothingSelected(p0: AdapterView<*>?) {
+            }
+
+        }
+
         binding.areaBtn.setOnClickListener{
             binding.spinner.adapter = areaSpinnerAdapter
         }
@@ -78,6 +112,25 @@ class FilterFragment : Fragment() {
         }
     }
     private fun initObservers(){
+        mealsViewModel.mealState.observe(this, Observer {
+            when(it){
+                is MealsState.Success ->{
+                    binding.loadingPbMl.isVisible = false
+                    binding.listRv.isVisible = true
+                    println(it.meals)
+                    mealsAdapter.submitList(it.meals)
+                }
+                is MealsState.Loading ->{
+                    binding.loadingPbMl.isVisible = true
+                    binding.listRv.isVisible = false
+                }
+                else -> {
+                    println("CEKAJ Meals $it")
+                    binding.loadingPbMl.isVisible = false
+                    binding.listRv.isVisible = true
+                }
+            }
+        })
         categoriesViewModel.categoriesState.observe(this, Observer {
             when(it){
                 is CategoriesState.Success ->{
