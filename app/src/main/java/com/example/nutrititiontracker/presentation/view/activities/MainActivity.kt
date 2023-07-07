@@ -10,10 +10,12 @@ import com.example.nutrititiontracker.databinding.ActivityMainBinding
 import com.example.nutrititiontracker.presentation.contract.CategoriesContract
 import com.example.nutrititiontracker.presentation.view.fragments.CategoriesFragment
 import com.example.nutrititiontracker.presentation.view.fragments.FilterFragment
+import com.example.nutrititiontracker.presentation.view.fragments.MealListFragment
 import com.example.nutrititiontracker.presentation.view.fragments.MyMealsFragment
 import com.example.nutrititiontracker.presentation.view.states.CategoriesState
 import com.example.nutrititiontracker.presentation.viewmodel.CategoriesViewModel
 import com.google.android.material.bottomnavigation.BottomNavigationView
+import org.koin.android.ext.android.bind
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class MainActivity : AppCompatActivity() {
@@ -22,6 +24,8 @@ class MainActivity : AppCompatActivity() {
     private val categoriesViewModel: CategoriesContract.ViewModel by viewModel<CategoriesViewModel>()
 
     private lateinit var bottomNav: BottomNavigationView
+
+    private var categoryMealListToggler: Boolean = false
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
@@ -33,7 +37,8 @@ class MainActivity : AppCompatActivity() {
         bottomNav.setOnItemSelectedListener {
             when (it.itemId){
                 R.id.categoryPage -> {
-                    loadFragment(CategoriesFragment())
+                    if(!categoryMealListToggler) loadFragment(CategoriesFragment())
+                    else loadFragment(MealListFragment())
                     true
                 }
                 R.id.filterPage ->{
@@ -53,6 +58,10 @@ class MainActivity : AppCompatActivity() {
 
     }
 
+    fun toggleCategoryMealList(){
+        categoryMealListToggler = true
+        bottomNav.menu.findItem(R.id.categoryPage).title = "Meal list"
+    }
     private fun loadFragment(fragment: Fragment){
         val transaction = supportFragmentManager.beginTransaction()
         transaction.replace(R.id.container, fragment)

@@ -16,6 +16,7 @@ import com.example.nutrititiontracker.data.models.CategoryResponse
 import com.example.nutrititiontracker.databinding.FragmentCategoriesBinding
 import com.example.nutrititiontracker.presentation.contract.CategoriesContract
 import com.example.nutrititiontracker.presentation.contract.MealsContract
+import com.example.nutrititiontracker.presentation.view.activities.MainActivity
 import com.example.nutrititiontracker.presentation.view.dialogs.CategoryDetailsDialog
 import com.example.nutrititiontracker.presentation.view.recycler.adapter.CategoryAdapter
 import com.example.nutrititiontracker.presentation.view.recycler.adapter.MealAdapter
@@ -77,6 +78,8 @@ class CategoriesFragment : Fragment() {
                 val bundle = Bundle().apply {
                     putSerializable("categorySelected", categoryResponse)
                 }
+                val ac = requireActivity() as MainActivity
+                ac.toggleCategoryMealList()
                 val fragment = MealListFragment()
                 fragment.arguments = bundle
                 transaction.replace(R.id.container, fragment)
