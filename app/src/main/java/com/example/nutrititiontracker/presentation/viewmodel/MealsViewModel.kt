@@ -1,17 +1,16 @@
 package com.example.nutrititiontracker.presentation.viewmodel
 
-import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.example.nutrititiontracker.data.models.MealResponse
 import com.example.nutrititiontracker.data.models.Resource
 import com.example.nutrititiontracker.data.repository.MealRepository
 import com.example.nutrititiontracker.presentation.contract.MealsContract
-import com.example.nutrititiontracker.presentation.view.states.CategoriesState
 import com.example.nutrititiontracker.presentation.view.states.MealsState
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.schedulers.Schedulers
+import java.util.*
 
 class MealsViewModel(
     private val mealRepository: MealRepository
@@ -108,6 +107,20 @@ class MealsViewModel(
                 mealState.value = MealsState.Error("Error happened while fetching data from the server")
             })
         subscriptions.add(subscription)
+    }
+
+    override fun sortAsc() {
+        val meals:List<MealResponse> = (mealState.value as MealsState.Success).meals
+        val sorted = meals.sortedBy { it.strMeal.toLowerCase(Locale.ROOT) }
+        println(sorted)
+        mealState.value = MealsState.Success(sorted)
+    }
+
+    override fun sortDesc() {
+        val meals:List<MealResponse> = (mealState.value as MealsState.Success).meals
+        val sorted = meals.sortedByDescending { it.strMeal.toLowerCase(Locale.ROOT) }
+        println(sorted)
+        mealState.value = MealsState.Success(sorted)
     }
 
     override fun onCleared() {

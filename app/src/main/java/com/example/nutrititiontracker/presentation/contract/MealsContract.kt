@@ -9,11 +9,14 @@ interface MealsContract {
         val mealState: LiveData<MealsState>
 
         fun fetchAllMealsByFirstLetter(c:Char)
-        fun fetchAllMealsByCategory(str:String)
+        fun fetchAllMealsByCategory(categoryName:String)
 
-        fun fetchAllMealsByMainIngredient(str:String)
-        fun fetchAllMealsByArea(str:String)
+        fun fetchAllMealsByMainIngredient(mainIngredient:String)
+        fun fetchAllMealsByArea(area:String)
 
-        fun fetchMealByName(str:String)
+        fun fetchMealByName(name:String)
+
+        fun sortAsc()
+        fun sortDesc()
     }
 }

@@ -25,7 +25,7 @@ class MealListFragment : Fragment() {
     private val mealsViewModel: MealsContract.ViewModel by viewModel<MealsViewModel>()
 
     private lateinit var mealAdapter: MealAdapter
-    private var meals:MutableList<MealResponse> = mutableListOf()
+    private var meals:List<MealResponse> = listOf()
     private var maxPageCnt: Int = 0
     private var currentPage: Int = 1
     private var mainIngredientMealNameToggle: Boolean = false
@@ -71,13 +71,13 @@ class MealListFragment : Fragment() {
         mealsViewModel.mealState.observe(this, Observer {
             when(it){
                 is MealsState.Success ->{
-                    val lock = Object()
-                    synchronized(lock){
-                        meals = it.meals.toMutableList()
+//                    val lock = Object()
+//                    synchronized(lock){
+                        meals = it.meals.toList()
                         mealAdapter.submitList(meals.subList(0, min(10, meals.size)))
                         currentPage = 1
                         binding.pageCntMealListTv.text = currentPage.toString()
-                    }
+//                    }
                     maxPageCnt = it.meals.size/10 + 1
                     binding.loadingPbMl.isVisible = false
                     binding.listRv.isVisible = true

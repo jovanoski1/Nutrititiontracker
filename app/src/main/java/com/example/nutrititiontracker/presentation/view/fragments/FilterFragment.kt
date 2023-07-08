@@ -31,6 +31,7 @@ import com.example.nutrititiontracker.presentation.viewmodel.MealsViewModel
 import org.koin.androidx.viewmodel.ext.android.sharedViewModel
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import java.util.*
+import kotlin.Comparator
 import kotlin.math.min
 
 
@@ -41,7 +42,7 @@ class FilterFragment : Fragment() {
     private val categoriesViewModel: CategoriesContract.ViewModel by viewModel<CategoriesViewModel>()
     private val mealsViewModel: MealsContract.ViewModel by sharedViewModel<MealsViewModel>()
 
-    private var meals:MutableList<MealResponse> = mutableListOf()
+    private var meals:List<MealResponse> = listOf()
     private var maxPageCnt: Int = 0
     private var currentPage: Int = 1
 
@@ -85,6 +86,16 @@ class FilterFragment : Fragment() {
     }
 
     private fun initListeners(){
+        binding.sortAscBtn.setOnClickListener{
+            mealsViewModel.sortAsc()
+//            meals.sortedBy { it.strMeal }
+//            mealsAdapter.submitList(meals)
+        }
+        binding.sortDescBtn.setOnClickListener{
+            mealsViewModel.sortDesc()
+//            meals.sortedByDescending { it.strMeal }
+//            mealsAdapter.submitList(meals)
+        }
 
         binding.searchMealListPageEt.addTextChangedListener(object : TextWatcher {
             override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
@@ -156,7 +167,7 @@ class FilterFragment : Fragment() {
                     binding.listRv.isVisible = true
 //                    mealsAdapter.submitList(it.meals)
 
-                    meals = it.meals.toMutableList()
+                    meals = it.meals
                     mealsAdapter.submitList(meals.subList(0, min(10, meals.size)))
                     currentPage = 1
                     binding.pageCntMealListTv.text = currentPage.toString()
