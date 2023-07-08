@@ -62,10 +62,10 @@ class MealDetailsActivity : AppCompatActivity() {
 
     private fun initUi(){
         binding.mealNameTv.text = meal?.strMeal ?: ""
-        binding.categoryTv.text = meal?.strCategory ?: ""
-        binding.areaTv.text = meal?.strArea ?: ""
-        binding.tagsTv.text = meal?.strTags ?: ""
-        binding.instructionsTv.text = meal?.strInstructions ?: ""
+        binding.categoryTv.text = meal?.strCategory ?: "Not available"
+        binding.areaTv.text = meal?.strArea ?: "Not available"
+        binding.tagsTv.text = meal?.strTags ?: "Not available"
+        binding.instructionsTv.text = meal?.strInstructions ?: "Not available"
         Picasso.get().load(meal!!.strMealThumb).into(binding.mealIv)
         binding.instructionsTv.movementMethod = ScrollingMovementMethod.getInstance()
 
