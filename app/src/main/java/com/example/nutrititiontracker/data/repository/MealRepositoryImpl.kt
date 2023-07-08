@@ -51,4 +51,12 @@ class MealRepositoryImpl(
                 Resource.Success(it.meals)
             }
     }
+
+    override fun fetchMealById(id: Long): Observable<Resource<MealResponse>> {
+        return mealService
+            .getMealById(id)
+            .map {
+                Resource.Success(it.meals[0])
+            }
+    }
 }

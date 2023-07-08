@@ -22,4 +22,7 @@ interface MealService {
 
     @GET("search.php?")
     fun getMealByName(@Query("s") s:String): Observable<MealsResponse>
+
+    @GET("lookup.php?")
+    fun getMealById(@Query("i") i:Long) : Observable<MealsResponse>
 }

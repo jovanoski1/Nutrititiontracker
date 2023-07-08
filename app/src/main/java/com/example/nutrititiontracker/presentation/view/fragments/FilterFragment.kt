@@ -1,5 +1,6 @@
 package com.example.nutrititiontracker.presentation.view.fragments
 
+import android.content.Intent
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
@@ -21,7 +22,9 @@ import com.example.nutrititiontracker.databinding.FragmentCategoriesBinding
 import com.example.nutrititiontracker.databinding.FragmentFilterBinding
 import com.example.nutrititiontracker.presentation.contract.CategoriesContract
 import com.example.nutrititiontracker.presentation.contract.MealsContract
+import com.example.nutrititiontracker.presentation.view.activities.MealDetailsActivity
 import com.example.nutrititiontracker.presentation.view.recycler.adapter.*
+import com.example.nutrititiontracker.presentation.view.recycler.listeners.MealClickListener
 import com.example.nutrititiontracker.presentation.view.states.AreasState
 import com.example.nutrititiontracker.presentation.view.states.CategoriesState
 import com.example.nutrititiontracker.presentation.view.states.IngredientsState
@@ -74,7 +77,14 @@ class FilterFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         binding.listRv.layoutManager = LinearLayoutManager(context)
-        mealsAdapter = MealAdapter()
+        mealsAdapter = MealAdapter(object : MealClickListener{
+            override fun onItemClick(mealResponse: MealResponse) {
+                val intent = Intent( context, MealDetailsActivity::class.java)
+                intent.putExtra("selectedMeal", mealResponse)
+                startActivity(intent)
+            }
+
+        })
         binding.listRv.adapter = mealsAdapter
 
         initObservers()

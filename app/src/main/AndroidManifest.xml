@@ -13,9 +13,12 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.NutrititionTracker">
         <activity
+            android:name=".presentation.view.activities.MealDetailsActivity"
+            android:exported="false" />
+        <activity
             android:name=".presentation.view.activities.SplashScreen"
-            android:theme="@style/Theme.AppCompat.Light.NoActionBar"
-            android:exported="true" >
+            android:exported="true"
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -27,9 +30,7 @@
             android:exported="false" />
         <activity
             android:name=".presentation.view.activities.MainActivity"
-            android:exported="false">
-
-        </activity>
+            android:exported="false"></activity>
     </application>
 
 </manifest>

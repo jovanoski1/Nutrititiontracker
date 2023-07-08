@@ -58,4 +58,4 @@ data class MealResponse (
     val strImageSource: String?,
     val strCreativeCommonsConfirmed: String?,
     val dateModified: String?
-)
+):java.io.Serializable

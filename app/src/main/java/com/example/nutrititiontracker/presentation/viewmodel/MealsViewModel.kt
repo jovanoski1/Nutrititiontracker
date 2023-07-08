@@ -1,11 +1,13 @@
 package com.example.nutrititiontracker.presentation.viewmodel
 
+import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.example.nutrititiontracker.data.models.MealResponse
 import com.example.nutrititiontracker.data.models.Resource
 import com.example.nutrititiontracker.data.repository.MealRepository
 import com.example.nutrititiontracker.presentation.contract.MealsContract
+import com.example.nutrititiontracker.presentation.view.states.MealDetailState
 import com.example.nutrititiontracker.presentation.view.states.MealsState
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
@@ -17,6 +19,7 @@ class MealsViewModel(
 ): ViewModel(), MealsContract.ViewModel {
 
     override val mealState: MutableLiveData<MealsState> = MutableLiveData()
+    override val mealDetailState: MutableLiveData<MealDetailState> = MutableLiveData()
 
     private val subscriptions = CompositeDisposable()
 
@@ -108,6 +111,23 @@ class MealsViewModel(
             })
         subscriptions.add(subscription)
     }
+
+    override fun fetchMealById(id: Long) {
+        val subscription = mealRepository
+            .fetchMealById(id)
+            .startWith(Resource.Loading())
+            .subscribeOn(Schedulers.io())
+            .observeOn(AndroidSchedulers.mainThread())
+            .subscribe({
+                when(it) {
+                    is Resource.Loading -> mealDetailState.value = MealDetailState.Loading
+                    is Resource.Success -> mealDetailState.value = MealDetailState.Success(it.data)
+                    is Resource.Error -> mealDetailState.value = MealDetailState.Error("Error happened while fetching data from the server")
+                }
+            },{
+                mealDetailState.value = MealDetailState.Error("Error happened while fetching data from the server")
+            })
+        subscriptions.add(subscription)    }
 
     override fun sortAsc() {
         val meals:List<MealResponse> = (mealState.value as MealsState.Success).meals

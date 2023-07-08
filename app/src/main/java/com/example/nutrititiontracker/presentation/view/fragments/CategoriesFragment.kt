@@ -13,6 +13,7 @@ import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.nutrititiontracker.R
 import com.example.nutrititiontracker.data.models.CategoryResponse
+import com.example.nutrititiontracker.data.models.MealResponse
 import com.example.nutrititiontracker.databinding.FragmentCategoriesBinding
 import com.example.nutrititiontracker.presentation.contract.CategoriesContract
 import com.example.nutrititiontracker.presentation.contract.MealsContract
@@ -21,6 +22,7 @@ import com.example.nutrititiontracker.presentation.view.dialogs.CategoryDetailsD
 import com.example.nutrititiontracker.presentation.view.recycler.adapter.CategoryAdapter
 import com.example.nutrititiontracker.presentation.view.recycler.adapter.MealAdapter
 import com.example.nutrititiontracker.presentation.view.recycler.listeners.CategoryClickListener
+import com.example.nutrititiontracker.presentation.view.recycler.listeners.MealClickListener
 import com.example.nutrititiontracker.presentation.view.states.CategoriesState
 import com.example.nutrititiontracker.presentation.view.states.MealsState
 import com.example.nutrititiontracker.presentation.viewmodel.CategoriesViewModel
@@ -87,7 +89,11 @@ class CategoriesFragment : Fragment() {
             }
         })
 
-        mealAdapter = MealAdapter()
+        mealAdapter = MealAdapter(object : MealClickListener{
+            override fun onItemClick(mealResponse: MealResponse) {
+            }
+
+        })
 
         binding.listRv.adapter = categoryAdapter
     }

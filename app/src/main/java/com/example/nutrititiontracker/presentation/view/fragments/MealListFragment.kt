@@ -15,6 +15,7 @@ import com.example.nutrititiontracker.data.models.MealResponse
 import com.example.nutrititiontracker.databinding.FragmentMealListBinding
 import com.example.nutrititiontracker.presentation.contract.MealsContract
 import com.example.nutrititiontracker.presentation.view.recycler.adapter.MealAdapter
+import com.example.nutrititiontracker.presentation.view.recycler.listeners.MealClickListener
 import com.example.nutrititiontracker.presentation.view.states.MealsState
 import com.example.nutrititiontracker.presentation.viewmodel.MealsViewModel
 import org.koin.androidx.viewmodel.ext.android.sharedViewModel
@@ -63,7 +64,10 @@ class MealListFragment : Fragment() {
 
     private fun initUi(){
         binding.listRv.layoutManager = LinearLayoutManager(context)
-        mealAdapter = MealAdapter()
+        mealAdapter = MealAdapter(object : MealClickListener{
+            override fun onItemClick(mealResponse: MealResponse) {
+            }
+        })
         binding.listRv.adapter = mealAdapter
     }
 
