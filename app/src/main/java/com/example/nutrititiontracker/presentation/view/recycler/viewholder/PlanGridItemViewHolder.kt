@@ -4,6 +4,7 @@ import android.graphics.BitmapFactory
 import androidx.recyclerview.widget.RecyclerView
 import com.example.nutrititiontracker.data.models.MealEntity
 import com.example.nutrititiontracker.databinding.MealPlanGridItemBinding
+import com.example.nutrititiontracker.presentation.view.recycler.listeners.GridPlanClickListener
 import com.example.nutrititiontracker.presentation.view.recycler.listeners.MealClickListener
 import com.example.nutrititiontracker.presentation.view.recycler.listeners.MyMealClickListener
 import com.squareup.picasso.Picasso
@@ -11,7 +12,7 @@ import com.squareup.picasso.Picasso
 
 class PlanGridItemViewHolder(private val itemBinding: MealPlanGridItemBinding) : RecyclerView.ViewHolder(itemBinding.root) {
 
-    fun bind(meal: MealEntity, clickListener: MyMealClickListener){
+    fun bind(meal: MealEntity, clickListener: GridPlanClickListener){
         if (meal.image==null){
 
         }
@@ -25,7 +26,7 @@ class PlanGridItemViewHolder(private val itemBinding: MealPlanGridItemBinding) :
         }
 
         itemBinding.root.setOnClickListener{
-            clickListener.onEditClick(meal)
+            clickListener.onItemClick(meal, position)
         }
     }
 }

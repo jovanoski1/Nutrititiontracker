@@ -10,7 +10,10 @@ import com.example.nutrititiontracker.data.models.MealEntity
 import com.example.nutrititiontracker.data.models.MealResponse
 import com.example.nutrititiontracker.data.models.MealType
 import com.example.nutrititiontracker.databinding.FragmentMealPlanBinding
+import com.example.nutrititiontracker.presentation.view.dialogs.CategoryDetailsDialog
+import com.example.nutrititiontracker.presentation.view.dialogs.MealPlanDialog
 import com.example.nutrititiontracker.presentation.view.recycler.adapter.PlanGridAdapter
+import com.example.nutrititiontracker.presentation.view.recycler.listeners.GridPlanClickListener
 import com.example.nutrititiontracker.presentation.view.recycler.listeners.MealClickListener
 import com.example.nutrititiontracker.presentation.view.recycler.listeners.MyMealClickListener
 import java.util.*
@@ -43,13 +46,11 @@ class MealPlanFragment : Fragment() {
     private fun initUi() {
         binding.listRv.layoutManager = GridLayoutManager(context, 4)
 
-        adapter = PlanGridAdapter(object : MyMealClickListener {
-
-            override fun onEditClick(mealEntity: MealEntity) {
+        adapter = PlanGridAdapter(object : GridPlanClickListener {
+            override fun onItemClick(mealEntity: MealEntity, index: Int) {
+                MealPlanDialog().show(parentFragmentManager, "Select meal dialog")
             }
 
-            override fun onDeleteClick(mealEntity: MealEntity) {
-            }
         })
 
         binding.listRv.adapter = adapter
