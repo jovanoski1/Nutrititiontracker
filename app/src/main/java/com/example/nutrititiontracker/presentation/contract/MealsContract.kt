@@ -31,5 +31,7 @@ interface MealsContract {
         fun deleteMeal(mealEntity: MealEntity)
 
         fun updateMeal(mealEntity: MealEntity)
+
+        fun getMealsByNameForUser(name:String, userId:Long)
     }
 }

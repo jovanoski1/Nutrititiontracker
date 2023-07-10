@@ -205,6 +205,22 @@ class MealsViewModel(
         subscriptions.add(subscription)
     }
 
+    override fun getMealsByNameForUser(name: String, userId: Long) {
+        val subscription = mealRepository
+            .getMealsByNameForUser(name, userId)
+            .subscribeOn(Schedulers.io())
+            .observeOn(AndroidSchedulers.mainThread())
+            .subscribe(
+                {
+                    mealsForUser.value = it
+                },
+                {
+                    println("Error while finding meals by name for user!")
+                }
+            )
+        subscriptions.add(subscription)
+    }
+
     override fun onCleared() {
         super.onCleared()
         subscriptions.dispose()

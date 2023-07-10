@@ -3,6 +3,8 @@ package com.example.nutrititiontracker.presentation.view.fragments
 import android.content.Intent
 import android.content.SharedPreferences
 import android.os.Bundle
+import android.text.Editable
+import android.text.TextWatcher
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -68,6 +70,23 @@ class MyMealsFragment : Fragment() {
         binding.listRv.adapter = mealsAdapter
 
         initObservers()
+        initListeners()
+    }
+
+    private fun initListeners() {
+        binding.searchEt.addTextChangedListener(object : TextWatcher{
+            override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
+
+            }
+
+            override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
+            }
+
+            override fun afterTextChanged(p0: Editable?) {
+                mealsViewModel.getMealsByNameForUser(p0.toString(), sharedPreferences.getLong("userId", -1))
+            }
+
+        })
     }
 
 

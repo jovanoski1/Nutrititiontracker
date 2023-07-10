@@ -76,4 +76,8 @@ class MealRepositoryImpl(
     override fun updateMeal(mealEntity: MealEntity): Completable {
         return localMeal.updateMeal(mealEntity)
     }
+
+    override fun getMealsByNameForUser(name: String, userId: Long): Observable<List<MealEntity>> {
+        return localMeal.getByName(name, userId)
+    }
 }

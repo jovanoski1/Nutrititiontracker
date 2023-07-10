@@ -24,4 +24,7 @@ abstract class MealDao {
 
     @Update
     abstract fun updateMeal(mealEntity: MealEntity): Completable
+
+    @Query("SELECT * FROM meals WHERE name LIKE :name || '%' and user_id == :userId")
+    abstract fun getByName(name: String, userId:Long): Observable<List<MealEntity>>
 }
