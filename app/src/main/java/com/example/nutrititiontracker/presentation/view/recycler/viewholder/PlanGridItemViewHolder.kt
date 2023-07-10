@@ -26,7 +26,7 @@ class PlanGridItemViewHolder(private val itemBinding: MealPlanGridItemBinding) :
         }
 
         itemBinding.root.setOnClickListener{
-            clickListener.onItemClick(meal, position)
+            clickListener.onItemClick(position)
         }
     }
 }

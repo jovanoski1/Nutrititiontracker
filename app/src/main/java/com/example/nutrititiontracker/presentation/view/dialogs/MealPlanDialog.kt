@@ -18,7 +18,9 @@ import com.example.nutrititiontracker.databinding.MealPlanDialogBinding
 import com.example.nutrititiontracker.presentation.contract.MealsContract
 import com.example.nutrititiontracker.presentation.view.recycler.adapter.MealAdapter
 import com.example.nutrititiontracker.presentation.view.recycler.adapter.MyMealAdapter
+import com.example.nutrititiontracker.presentation.view.recycler.adapter.MyMealPlanAdapter
 import com.example.nutrititiontracker.presentation.view.recycler.listeners.MealClickListener
+import com.example.nutrititiontracker.presentation.view.recycler.listeners.MealPlanMealClickListener
 import com.example.nutrititiontracker.presentation.view.recycler.listeners.MyMealClickListener
 import com.example.nutrititiontracker.presentation.view.states.MealsState
 import com.example.nutrititiontracker.presentation.viewmodel.MealsViewModel
@@ -26,13 +28,14 @@ import org.koin.android.ext.android.inject
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class MealPlanDialog(
+    private val mealPlanMealClickListener: MealPlanMealClickListener
 ) : DialogFragment() {
 
     private var _binding: MealPlanDialogBinding? = null
     private val binding get() = _binding!!
 
     private val mealsViewModel: MealsContract.ViewModel by viewModel<MealsViewModel>()
-    private lateinit var myMealAdapter: MyMealAdapter
+    private lateinit var myMealAdapter: MyMealPlanAdapter
     private lateinit var mealAdapter: MealAdapter
     private val sharedPreferences: SharedPreferences by inject()
 
@@ -113,17 +116,23 @@ class MealPlanDialog(
     private fun initUi() {
         binding.listRv.layoutManager = LinearLayoutManager(context)
 
-        myMealAdapter = MyMealAdapter(object : MyMealClickListener {
-            override fun onEditClick(mealEntity: MealEntity) {
+        myMealAdapter = MyMealPlanAdapter(object : MealPlanMealClickListener {
+            override fun onMyMealClick(mealEntity: MealEntity) {
+                println(mealEntity.name)
+                mealPlanMealClickListener.onMyMealClick(mealEntity)
+                dialog?.dismiss()
             }
 
-            override fun onDeleteClick(mealEntity: MealEntity) {
-
+            override fun onMealClick(mealResponse: MealResponse) {
             }
+
         })
 
         mealAdapter = MealAdapter(object : MealClickListener {
             override fun onItemClick(mealResponse: MealResponse) {
+                println(mealResponse.strMeal)
+                mealPlanMealClickListener.onMealClick(mealResponse)
+                dialog?.dismiss()
             }
         })
 

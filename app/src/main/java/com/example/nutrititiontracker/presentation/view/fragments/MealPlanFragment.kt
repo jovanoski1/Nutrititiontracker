@@ -1,5 +1,6 @@
 package com.example.nutrititiontracker.presentation.view.fragments
 
+import android.content.SharedPreferences
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -15,7 +16,9 @@ import com.example.nutrititiontracker.presentation.view.dialogs.MealPlanDialog
 import com.example.nutrititiontracker.presentation.view.recycler.adapter.PlanGridAdapter
 import com.example.nutrititiontracker.presentation.view.recycler.listeners.GridPlanClickListener
 import com.example.nutrititiontracker.presentation.view.recycler.listeners.MealClickListener
+import com.example.nutrititiontracker.presentation.view.recycler.listeners.MealPlanMealClickListener
 import com.example.nutrititiontracker.presentation.view.recycler.listeners.MyMealClickListener
+import org.koin.android.ext.android.inject
 import java.util.*
 
 class MealPlanFragment : Fragment() {
@@ -23,6 +26,9 @@ class MealPlanFragment : Fragment() {
     private var _binding: FragmentMealPlanBinding? = null
     private val binding get() = _binding!!
     private lateinit var adapter: PlanGridAdapter
+    private var mealEntitiesOrg = listOf<MealEntity>()
+    private val sharedPreferences: SharedPreferences by inject()
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -47,8 +53,26 @@ class MealPlanFragment : Fragment() {
         binding.listRv.layoutManager = GridLayoutManager(context, 4)
 
         adapter = PlanGridAdapter(object : GridPlanClickListener {
-            override fun onItemClick(mealEntity: MealEntity, index: Int) {
-                MealPlanDialog().show(parentFragmentManager, "Select meal dialog")
+            override fun onItemClick(index: Int) {
+                MealPlanDialog(object : MealPlanMealClickListener{
+                    override fun onMyMealClick(mealEntity: MealEntity) {
+                        val mealListCopy = mealEntitiesOrg.toMutableList()
+                        mealListCopy[index] = mealEntity
+                        mealEntitiesOrg = mealListCopy
+                        adapter.submitList(mealEntitiesOrg)
+                        println("USAOOOO")
+                    }
+
+                    override fun onMealClick(mealResponse: MealResponse) {
+                        val mealTypeValues:Array<MealType> = MealType.values()
+
+                        val mealListCopy = mealEntitiesOrg.toMutableList()
+                        mealListCopy[index] = mealResponse.toMealEntity(sharedPreferences.getLong("userId", -1), mealTypeValues[index%4])
+                        mealEntitiesOrg = mealListCopy
+                        adapter.submitList(mealEntitiesOrg)
+                    }
+
+                }).show(parentFragmentManager, "Select meal dialog")
             }
 
         })
@@ -56,9 +80,9 @@ class MealPlanFragment : Fragment() {
         binding.listRv.adapter = adapter
 
         val mealEntities = mutableListOf<MealEntity>()
-
         for (i in 0 until 28) {
             val mealEntity = MealEntity(
+                id = 599,
                 name = i.toString(),
                 category = null,
                 plannedDate = Date(),
@@ -111,7 +135,61 @@ class MealPlanFragment : Fragment() {
             mealEntities.add(mealEntity)
         }
 
-        adapter.submitList(mealEntities)
+        mealEntitiesOrg = mealEntities
+        adapter.submitList(mealEntitiesOrg)
     }
+    fun MealResponse.toMealEntity(userId: Long, mealType: MealType): MealEntity {
+        return MealEntity(
+            name = strMeal,
+            category = strCategory,
+            plannedDate = Date(),
+            mealType = mealType,
+            image = strMealThumb,
+            instructions = strInstructions,
+            urlToVideo = strYoutube,
+            strIngredient1 = strIngredient1,
+            strIngredient2 = strIngredient2,
+            strIngredient3 = strIngredient3,
+            strIngredient4 = strIngredient4,
+            strIngredient5 = strIngredient5,
+            strIngredient6 = strIngredient6,
+            strIngredient7 = strIngredient7,
+            strIngredient8 = strIngredient8,
+            strIngredient9 = strIngredient9,
+            strIngredient10 = strIngredient10,
+            strIngredient11 = strIngredient11,
+            strIngredient12 = strIngredient12,
+            strIngredient13 = strIngredient13,
+            strIngredient14 = strIngredient14,
+            strIngredient15 = strIngredient15,
+            strIngredient16 = strIngredient16,
+            strIngredient17 = strIngredient17,
+            strIngredient18 = strIngredient18,
+            strIngredient19 = strIngredient19,
+            strIngredient20 = strIngredient20,
+            strMeasure1 = strMeasure1,
+            strMeasure2 = strMeasure2,
+            strMeasure3 = strMeasure3,
+            strMeasure4 = strMeasure4,
+            strMeasure5 = strMeasure5,
+            strMeasure6 = strMeasure6,
+            strMeasure7 = strMeasure7,
+            strMeasure8 = strMeasure8,
+            strMeasure9 = strMeasure9,
+            strMeasure10 = strMeasure10,
+            strMeasure11 = strMeasure11,
+            strMeasure12 = strMeasure12,
+            strMeasure13 = strMeasure13,
+            strMeasure14 = strMeasure14,
+            strMeasure15 = strMeasure15,
+            strMeasure16 = strMeasure16,
+            strMeasure17 = strMeasure17,
+            strMeasure18 = strMeasure18,
+            strMeasure19 = strMeasure19,
+            strMeasure20 = strMeasure20,
+            userId = userId
+        )
+    }
+
 
 }
