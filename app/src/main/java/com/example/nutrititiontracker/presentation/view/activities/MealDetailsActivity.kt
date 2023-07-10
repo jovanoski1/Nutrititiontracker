@@ -1,5 +1,6 @@
 package com.example.nutrititiontracker.presentation.view.activities
 
+import android.content.Intent
 import android.os.Bundle
 import android.text.method.ScrollingMovementMethod
 import androidx.appcompat.app.AppCompatActivity
@@ -28,11 +29,20 @@ class MealDetailsActivity : AppCompatActivity() {
         setContentView(binding.root)
 
         initObservers()
+        initListeners()
 
         val extras = intent.extras
         if (extras!=null){
             val meal = extras.getSerializable("selectedMeal") as MealResponse
             mealsViewModel.fetchMealById(meal.idMeal)
+        }
+    }
+
+    private fun initListeners() {
+        binding.saveMealBtn.setOnClickListener{
+            val i = Intent(this, SaveMealActivity::class.java)
+            i.putExtra("mealToSave", meal)
+            startActivity(i)
         }
     }
 
