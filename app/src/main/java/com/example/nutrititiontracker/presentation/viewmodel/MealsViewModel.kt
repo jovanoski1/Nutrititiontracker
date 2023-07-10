@@ -1,6 +1,5 @@
 package com.example.nutrititiontracker.presentation.viewmodel
 
-import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.example.nutrititiontracker.data.models.MealEntity
@@ -10,7 +9,6 @@ import com.example.nutrititiontracker.data.repository.MealRepository
 import com.example.nutrititiontracker.presentation.contract.MealsContract
 import com.example.nutrititiontracker.presentation.view.states.MealDetailState
 import com.example.nutrititiontracker.presentation.view.states.MealsState
-import io.reactivex.Observable
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.schedulers.Schedulers
@@ -22,7 +20,7 @@ class MealsViewModel(
 
     override val mealState: MutableLiveData<MealsState> = MutableLiveData()
     override val mealDetailState: MutableLiveData<MealDetailState> = MutableLiveData()
-    override val mealStateForUser: MutableLiveData<List<MealEntity>> = MutableLiveData()
+    override val mealsForUser: MutableLiveData<List<MealEntity>> = MutableLiveData()
 
     private val subscriptions = CompositeDisposable()
 
@@ -166,7 +164,7 @@ class MealsViewModel(
             .observeOn(AndroidSchedulers.mainThread())
             .subscribe(
                 {
-                    mealStateForUser.value = it
+                    mealsForUser.value = it
                 },
                 {
 

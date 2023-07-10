@@ -6,7 +6,6 @@ import android.content.Intent
 import android.content.SharedPreferences
 import android.content.pm.PackageManager
 import android.graphics.Bitmap
-import android.net.Uri
 import android.os.Bundle
 import android.os.Environment
 import android.provider.MediaStore
@@ -16,7 +15,6 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.Observer
-import com.example.nutrititiontracker.R
 import com.example.nutrititiontracker.data.models.MealEntity
 import com.example.nutrititiontracker.data.models.MealResponse
 import com.example.nutrititiontracker.data.models.MealType
@@ -27,8 +25,6 @@ import com.squareup.picasso.Picasso
 import org.koin.android.ext.android.inject
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import java.io.File
-import java.io.IOException
-import java.text.SimpleDateFormat
 import java.util.*
 
 class SaveMealActivity : AppCompatActivity() {
@@ -55,16 +51,8 @@ class SaveMealActivity : AppCompatActivity() {
 
         initUi()
         initListeners()
-        initObservers()
     }
 
-    private fun initObservers() {
-        mealsViewModel.mealStateForUser.observe(this, Observer {
-            for( x in it){
-                println(x.name+" "+x.mealType)
-            }
-        })
-    }
 
     private fun initListeners() {
 

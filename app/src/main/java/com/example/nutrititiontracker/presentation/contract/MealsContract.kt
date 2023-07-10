@@ -11,7 +11,7 @@ interface MealsContract {
     interface ViewModel {
         val mealState: LiveData<MealsState>
         val mealDetailState: LiveData<MealDetailState>
-        val mealStateForUser: LiveData<List<MealEntity>>
+        val mealsForUser: LiveData<List<MealEntity>>
 
         fun fetchAllMealsByFirstLetter(c:Char)
         fun fetchAllMealsByCategory(categoryName:String)
