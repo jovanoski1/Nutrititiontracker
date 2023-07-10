@@ -70,15 +70,10 @@ class MyMealsFragment : Fragment() {
         initObservers()
     }
 
-    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        super.onActivityResult(requestCode, resultCode, data)
-        mealsViewModel.getMealsForUser(sharedPreferences.getLong("userId", -1))
-    }
 
     private fun initObservers() {
         mealsViewModel.mealsForUser.observe(this, Observer {
             mealsAdapter.submitList(it)
-            println("USAOOOOOOOOO")
         })
     }
 }

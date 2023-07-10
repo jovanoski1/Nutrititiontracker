@@ -71,7 +71,6 @@ class EditMyMealActivity : AppCompatActivity() {
             Toast.makeText(this, "Successfully updated meal", Toast.LENGTH_LONG).show()
 
             val intent = Intent()
-            setResult(3352, intent)
             finish()
         }
 
