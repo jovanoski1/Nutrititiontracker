@@ -1,10 +1,20 @@
 package com.example.nutrititiontracker.presentation.view.activities
 
+import android.Manifest
+import android.app.Activity
+import android.content.Intent
 import android.content.SharedPreferences
+import android.content.pm.PackageManager
+import android.graphics.Bitmap
+import android.net.Uri
 import android.os.Bundle
+import android.os.Environment
+import android.provider.MediaStore
 import android.widget.ArrayAdapter
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.app.ActivityCompat
+import androidx.core.content.ContextCompat
 import androidx.lifecycle.Observer
 import com.example.nutrititiontracker.R
 import com.example.nutrititiontracker.data.models.MealEntity
@@ -16,6 +26,10 @@ import com.example.nutrititiontracker.presentation.viewmodel.MealsViewModel
 import com.squareup.picasso.Picasso
 import org.koin.android.ext.android.inject
 import org.koin.androidx.viewmodel.ext.android.viewModel
+import java.io.File
+import java.io.IOException
+import java.text.SimpleDateFormat
+import java.util.*
 
 class SaveMealActivity : AppCompatActivity() {
 
@@ -23,6 +37,7 @@ class SaveMealActivity : AppCompatActivity() {
     private lateinit var mealToSave:MealResponse
     private val mealsViewModel: MealsContract.ViewModel by viewModel<MealsViewModel>()
     private val sharedPreferences: SharedPreferences by inject()
+    private var output: File? = null
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -52,13 +67,30 @@ class SaveMealActivity : AppCompatActivity() {
     }
 
     private fun initListeners() {
+
+        binding.mealImageIv.setOnClickListener {
+            println("KLIKNUO NA SLIKU")
+            if (ActivityCompat.shouldShowRequestPermissionRationale(this@SaveMealActivity, Manifest.permission.CAMERA)) {
+                ActivityCompat.requestPermissions(
+                    this@SaveMealActivity,
+                    arrayOf(Manifest.permission.CAMERA),
+                    1
+                )
+            }
+            else {
+                ActivityCompat.requestPermissions(this@SaveMealActivity,
+                    arrayOf(Manifest.permission.CAMERA), 1)
+            }
+        }
+
         binding.saveMealBtn.setOnClickListener{
             val mealType:MealType = binding.mealSpinner.selectedItem as MealType
             val id:Long = sharedPreferences.getLong("userId", -1L)
 
+//            val imagePath =
             mealsViewModel.insertMeal(MealEntity(
                 category = mealToSave.strCategory,
-                image = mealToSave.strMealThumb,
+                image = if (output==null)  mealToSave.strMealThumb else output!!.absolutePath ,
                 instructions = mealToSave.strInstructions,
                 name = mealToSave.strMeal,
                 mealType = mealType,
@@ -111,6 +143,42 @@ class SaveMealActivity : AppCompatActivity() {
         }
     }
 
+    override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<String>,
+                                            grantResults: IntArray) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
+        when (requestCode) {
+            1 -> {
+                if (grantResults.isNotEmpty() && grantResults[0] ==
+                    PackageManager.PERMISSION_GRANTED) {
+                    if ((ContextCompat.checkSelfPermission(this@SaveMealActivity,
+                            Manifest.permission.CAMERA) == PackageManager.PERMISSION_GRANTED)) {
+                        Toast.makeText(this, "Permission Granted", Toast.LENGTH_SHORT).show()
+                        capturePhoto()
+                    }
+                } else {
+                    Toast.makeText(this, "Permission Denied", Toast.LENGTH_SHORT).show()
+                }
+                return
+            }
+        }
+    }
+
+    private fun capturePhoto() {
+        val cameraIntent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
+
+        val dir = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DCIM)
+        val date = Date()
+        output = File(dir, mealToSave.strMeal+date.toString()+".jpeg")
+
+        startActivityForResult(cameraIntent, 200)
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        if (resultCode == Activity.RESULT_OK && requestCode == 200 && data != null){
+            binding.mealImageIv.setImageBitmap(data.extras?.get("data") as Bitmap)
+        }
+    }
     private fun initUi() {
         val mealTypeValues:Array<MealType> = MealType.values()
         val adapter = ArrayAdapter<MealType>(this, android.R.layout.simple_spinner_item, mealTypeValues)
