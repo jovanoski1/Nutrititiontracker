@@ -5,6 +5,7 @@ import androidx.room.Delete
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
+import androidx.room.Update
 import com.example.nutrititiontracker.data.models.MealEntity
 import io.reactivex.Completable
 import io.reactivex.Observable
@@ -20,4 +21,7 @@ abstract class MealDao {
 
     @Delete
     abstract fun deleteMeal(mealEntity: MealEntity): Completable
+
+    @Update
+    abstract fun updateMeal(mealEntity: MealEntity): Completable
 }

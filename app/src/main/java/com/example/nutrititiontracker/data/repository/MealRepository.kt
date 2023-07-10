@@ -23,4 +23,6 @@ interface MealRepository {
     fun insertMeal(mealEntity: MealEntity): Completable
 
     fun deleteMeal(mealEntity: MealEntity): Completable
+
+    fun updateMeal(mealEntity: MealEntity): Completable
 }

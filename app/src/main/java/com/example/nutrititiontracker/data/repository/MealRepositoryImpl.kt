@@ -72,4 +72,8 @@ class MealRepositoryImpl(
     override fun deleteMeal(mealEntity: MealEntity): Completable {
         return localMeal.deleteMeal(mealEntity)
     }
+
+    override fun updateMeal(mealEntity: MealEntity): Completable {
+        return localMeal.updateMeal(mealEntity)
+    }
 }

@@ -186,7 +186,24 @@ class MealsViewModel(
                     println("Error deleting meal with id ${mealEntity.id}")
                 }
             )
-        subscriptions.add(subscription)    }
+        subscriptions.add(subscription)
+    }
+
+    override fun updateMeal(mealEntity: MealEntity) {
+        val subscription = mealRepository
+            .updateMeal(mealEntity)
+            .subscribeOn(Schedulers.io())
+            .observeOn(AndroidSchedulers.mainThread())
+            .subscribe(
+                {
+                    println("Updated meal with id ${mealEntity.id}")
+                },
+                {
+                    println("Error updating meal with id ${mealEntity.id}")
+                }
+            )
+        subscriptions.add(subscription)
+    }
 
     override fun onCleared() {
         super.onCleared()

@@ -9,6 +9,7 @@ class MyMealDiffCallback : DiffUtil.ItemCallback<MealEntity>() {
     }
 
     override fun areContentsTheSame(oldItem: MealEntity, newItem: MealEntity): Boolean {
-        return oldItem.id == newItem.id
+        return oldItem.id == newItem.id && oldItem.plannedDate == newItem.plannedDate && oldItem.image == newItem.image
+                && oldItem.name == newItem.name && oldItem.mealType == newItem.mealType
     }
 }

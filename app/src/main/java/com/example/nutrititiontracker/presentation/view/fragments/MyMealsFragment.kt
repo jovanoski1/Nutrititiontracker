@@ -1,5 +1,6 @@
 package com.example.nutrititiontracker.presentation.view.fragments
 
+import android.content.Intent
 import android.content.SharedPreferences
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -11,6 +12,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.nutrititiontracker.data.models.MealEntity
 import com.example.nutrititiontracker.databinding.FragmentMyMealsBinding
 import com.example.nutrititiontracker.presentation.contract.MealsContract
+import com.example.nutrititiontracker.presentation.view.activities.EditMyMealActivity
 import com.example.nutrititiontracker.presentation.view.recycler.adapter.MyMealAdapter
 import com.example.nutrititiontracker.presentation.view.recycler.listeners.MyMealClickListener
 import com.example.nutrititiontracker.presentation.viewmodel.MealsViewModel
@@ -46,7 +48,9 @@ class MyMealsFragment : Fragment() {
         binding.listRv.layoutManager = LinearLayoutManager(context)
         mealsAdapter = MyMealAdapter(object : MyMealClickListener {
             override fun onEditClick(mealEntity: MealEntity) {
-                TODO("Not yet implemented")
+                val intent = Intent(context, EditMyMealActivity::class.java)
+                intent.putExtra("mealToEdit", mealEntity)
+                startActivityForResult(intent, 3352)
             }
 
             override fun onDeleteClick(mealEntity: MealEntity) {
@@ -66,9 +70,15 @@ class MyMealsFragment : Fragment() {
         initObservers()
     }
 
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        mealsViewModel.getMealsForUser(sharedPreferences.getLong("userId", -1))
+    }
+
     private fun initObservers() {
         mealsViewModel.mealsForUser.observe(this, Observer {
             mealsAdapter.submitList(it)
+            println("USAOOOOOOOOO")
         })
     }
 }

@@ -23,7 +23,7 @@ import com.squareup.picasso.Picasso
 import org.koin.android.ext.android.inject
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import java.io.ByteArrayOutputStream
-import java.io.File
+import java.util.*
 
 
 class SaveMealActivity : AppCompatActivity() {
@@ -74,9 +74,15 @@ class SaveMealActivity : AppCompatActivity() {
             val mealType:MealType = binding.mealSpinner.selectedItem as MealType
             val id:Long = sharedPreferences.getLong("userId", -1L)
 
-//            val imagePath =
+            val day = binding.datePicker.dayOfMonth
+            val month = binding.datePicker.month + 1
+            val year = binding.datePicker.year
+            val calendar = Calendar.getInstance()
+            calendar.set(year, month, day)
+
             mealsViewModel.insertMeal(MealEntity(
                 category = mealToSave.strCategory,
+                plannedDate = calendar.time,
                 image = if (output==null)  mealToSave.strMealThumb else output!! ,
                 instructions = mealToSave.strInstructions,
                 name = mealToSave.strMeal,

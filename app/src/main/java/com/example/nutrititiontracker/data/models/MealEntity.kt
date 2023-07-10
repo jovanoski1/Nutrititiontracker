@@ -9,11 +9,11 @@ import java.util.*
 data class MealEntity(
     @PrimaryKey(autoGenerate = true)
     val id:Long = 0,
-    val name:String,
+    var name:String,
     val category: String?,
-    val plannedDate: Date = Date(),
-    val mealType: MealType,
-    val image:String?,
+    var plannedDate: Date,
+    var mealType: MealType,
+    var image:String?,
     val instructions:String?,
     val urlToVideo:String?,
     val strIngredient1: String?,
@@ -57,4 +57,4 @@ data class MealEntity(
     val strMeasure19: String?,
     val strMeasure20: String?,
     @ColumnInfo(name = "user_id") val userId: Long
-)
+):java.io.Serializable
