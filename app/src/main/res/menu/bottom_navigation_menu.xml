@@ -18,6 +18,12 @@
         android:icon="@drawable/dinner"
         android:title="My Meals"
         />
+    <item
+        android:id="@+id/planPage"
+        android:enabled="true"
+        android:icon="@drawable/plan"
+        android:title="Plan"
+        />
 
 
 </menu>

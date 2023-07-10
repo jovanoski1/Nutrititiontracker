@@ -8,10 +8,7 @@ import androidx.lifecycle.Observer
 import com.example.nutrititiontracker.R
 import com.example.nutrititiontracker.databinding.ActivityMainBinding
 import com.example.nutrititiontracker.presentation.contract.CategoriesContract
-import com.example.nutrititiontracker.presentation.view.fragments.CategoriesFragment
-import com.example.nutrititiontracker.presentation.view.fragments.FilterFragment
-import com.example.nutrititiontracker.presentation.view.fragments.MealListFragment
-import com.example.nutrititiontracker.presentation.view.fragments.MyMealsFragment
+import com.example.nutrititiontracker.presentation.view.fragments.*
 import com.example.nutrititiontracker.presentation.view.states.CategoriesState
 import com.example.nutrititiontracker.presentation.viewmodel.CategoriesViewModel
 import com.google.android.material.bottomnavigation.BottomNavigationView
@@ -47,6 +44,10 @@ class MainActivity : AppCompatActivity() {
                 }
                 R.id.myMealsPage ->{
                     loadFragment(MyMealsFragment())
+                    true
+                }
+                R.id.planPage -> {
+                    loadFragment(MealPlanFragment())
                     true
                 }
                 else -> {
