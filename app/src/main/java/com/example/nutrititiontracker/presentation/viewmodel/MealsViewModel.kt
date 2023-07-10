@@ -173,6 +173,21 @@ class MealsViewModel(
         subscriptions.add(subscription)
     }
 
+    override fun deleteMeal(mealEntity: MealEntity) {
+        val subscription = mealRepository
+            .deleteMeal(mealEntity)
+            .subscribeOn(Schedulers.io())
+            .observeOn(AndroidSchedulers.mainThread())
+            .subscribe(
+                {
+                    println("Deleted meal with id ${mealEntity.id}")
+                },
+                {
+                    println("Error deleting meal with id ${mealEntity.id}")
+                }
+            )
+        subscriptions.add(subscription)    }
+
     override fun onCleared() {
         super.onCleared()
         subscriptions.dispose()

@@ -1,6 +1,7 @@
 package com.example.nutrititiontracker.data.datasources.local
 
 import androidx.room.Dao
+import androidx.room.Delete
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
@@ -16,4 +17,7 @@ abstract class MealDao {
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     abstract fun insertMeal(mealEntity: MealEntity): Completable
+
+    @Delete
+    abstract fun deleteMeal(mealEntity: MealEntity): Completable
 }

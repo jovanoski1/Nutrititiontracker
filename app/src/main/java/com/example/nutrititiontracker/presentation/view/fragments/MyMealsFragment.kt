@@ -55,8 +55,8 @@ class MyMealsFragment : Fragment() {
                     "Confirm deletition of " + mealEntity.name,
                     Snackbar.LENGTH_SHORT
                 )
-                    .setAction("Confirm", View.OnClickListener { view: View? ->
-
+                    .setAction("Confirm", View.OnClickListener {
+                        mealsViewModel.deleteMeal(mealEntity)
                     }).show()
             }
 

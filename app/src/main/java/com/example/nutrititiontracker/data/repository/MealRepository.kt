@@ -21,4 +21,6 @@ interface MealRepository {
     fun getAllMealsForUser(id:Long): Observable<List<MealEntity>>
 
     fun insertMeal(mealEntity: MealEntity): Completable
+
+    fun deleteMeal(mealEntity: MealEntity): Completable
 }

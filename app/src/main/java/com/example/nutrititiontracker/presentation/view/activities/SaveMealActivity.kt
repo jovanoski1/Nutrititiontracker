@@ -7,14 +7,12 @@ import android.content.SharedPreferences
 import android.content.pm.PackageManager
 import android.graphics.Bitmap
 import android.os.Bundle
-import android.os.Environment
 import android.provider.MediaStore
 import android.widget.ArrayAdapter
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
-import androidx.lifecycle.Observer
 import com.example.nutrititiontracker.data.models.MealEntity
 import com.example.nutrititiontracker.data.models.MealResponse
 import com.example.nutrititiontracker.data.models.MealType
@@ -24,8 +22,9 @@ import com.example.nutrititiontracker.presentation.viewmodel.MealsViewModel
 import com.squareup.picasso.Picasso
 import org.koin.android.ext.android.inject
 import org.koin.androidx.viewmodel.ext.android.viewModel
+import java.io.ByteArrayOutputStream
 import java.io.File
-import java.util.*
+
 
 class SaveMealActivity : AppCompatActivity() {
 
@@ -33,7 +32,7 @@ class SaveMealActivity : AppCompatActivity() {
     private lateinit var mealToSave:MealResponse
     private val mealsViewModel: MealsContract.ViewModel by viewModel<MealsViewModel>()
     private val sharedPreferences: SharedPreferences by inject()
-    private var output: File? = null
+    private var output: String? = null
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -78,7 +77,7 @@ class SaveMealActivity : AppCompatActivity() {
 //            val imagePath =
             mealsViewModel.insertMeal(MealEntity(
                 category = mealToSave.strCategory,
-                image = if (output==null)  mealToSave.strMealThumb else output!!.absolutePath ,
+                image = if (output==null)  mealToSave.strMealThumb else output!! ,
                 instructions = mealToSave.strInstructions,
                 name = mealToSave.strMeal,
                 mealType = mealType,
@@ -154,10 +153,6 @@ class SaveMealActivity : AppCompatActivity() {
     private fun capturePhoto() {
         val cameraIntent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
 
-        val dir = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DCIM)
-        val date = Date()
-        output = File(dir, mealToSave.strMeal+date.toString()+".jpeg")
-
         startActivityForResult(cameraIntent, 200)
     }
 
@@ -165,7 +160,16 @@ class SaveMealActivity : AppCompatActivity() {
         super.onActivityResult(requestCode, resultCode, data)
         if (resultCode == Activity.RESULT_OK && requestCode == 200 && data != null){
             binding.mealImageIv.setImageBitmap(data.extras?.get("data") as Bitmap)
+            val bitmap = data.extras?.get("data") as Bitmap
+            output = bitmapToBase64(bitmap)
         }
+    }
+
+    private fun bitmapToBase64(bitmap: Bitmap): String {
+        val byteArrayOutputStream = ByteArrayOutputStream()
+        bitmap.compress(Bitmap.CompressFormat.JPEG, 100, byteArrayOutputStream)
+        val byteArray = byteArrayOutputStream.toByteArray()
+        return android.util.Base64.encodeToString(byteArray, android.util.Base64.DEFAULT)
     }
     private fun initUi() {
         val mealTypeValues:Array<MealType> = MealType.values()
