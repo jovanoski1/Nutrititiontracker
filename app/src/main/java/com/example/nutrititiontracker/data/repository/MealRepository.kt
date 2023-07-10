@@ -1,9 +1,7 @@
 package com.example.nutrititiontracker.data.repository
 
-import com.example.nutrititiontracker.data.models.CategoryResponse
-import com.example.nutrititiontracker.data.models.MealResponse
-import com.example.nutrititiontracker.data.models.MealsResponse
-import com.example.nutrititiontracker.data.models.Resource
+import com.example.nutrititiontracker.data.models.*
+import io.reactivex.Completable
 import io.reactivex.Observable
 
 interface MealRepository {
@@ -19,4 +17,8 @@ interface MealRepository {
     fun fetchMealByName(c:String): Observable<Resource<List<MealResponse>>>
 
     fun fetchMealById(id:Long): Observable<Resource<MealResponse>>
+
+    fun getAllMealsForUser(id:Long): Observable<List<MealEntity>>
+
+    fun insertMeal(mealEntity: MealEntity): Completable
 }

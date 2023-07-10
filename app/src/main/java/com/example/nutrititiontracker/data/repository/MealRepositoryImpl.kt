@@ -1,15 +1,15 @@
 package com.example.nutrititiontracker.data.repository
 
 import android.annotation.SuppressLint
+import com.example.nutrititiontracker.data.datasources.local.MealDao
 import com.example.nutrititiontracker.data.datasources.remote.MealService
-import com.example.nutrititiontracker.data.models.CategoryResponse
-import com.example.nutrititiontracker.data.models.MealResponse
-import com.example.nutrititiontracker.data.models.MealsResponse
-import com.example.nutrititiontracker.data.models.Resource
+import com.example.nutrititiontracker.data.models.*
+import io.reactivex.Completable
 import io.reactivex.Observable
 
 class MealRepositoryImpl(
-    private val mealService: MealService
+    private val mealService: MealService,
+    private val localMeal: MealDao
 ):MealRepository {
 
     override fun fetchMealsByFirstLetter(c:Char): Observable<Resource<List<MealResponse>>> {
@@ -58,5 +58,14 @@ class MealRepositoryImpl(
             .map {
                 Resource.Success(it.meals[0])
             }
+    }
+
+    override fun getAllMealsForUser(id: Long): Observable<List<MealEntity>> {
+        return localMeal
+            .getMealsForUsr(id)
+    }
+
+    override fun insertMeal(mealEntity: MealEntity): Completable {
+        return localMeal.insertMeal(mealEntity)
     }
 }

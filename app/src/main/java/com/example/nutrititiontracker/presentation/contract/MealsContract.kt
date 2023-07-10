@@ -1,14 +1,17 @@
 package com.example.nutrititiontracker.presentation.contract
 
 import androidx.lifecycle.LiveData
+import com.example.nutrititiontracker.data.models.MealEntity
 import com.example.nutrititiontracker.presentation.view.states.CategoriesState
 import com.example.nutrititiontracker.presentation.view.states.MealDetailState
 import com.example.nutrititiontracker.presentation.view.states.MealsState
+import io.reactivex.Observable
 
 interface MealsContract {
     interface ViewModel {
         val mealState: LiveData<MealsState>
         val mealDetailState: LiveData<MealDetailState>
+        val mealStateForUser: LiveData<List<MealEntity>>
 
         fun fetchAllMealsByFirstLetter(c:Char)
         fun fetchAllMealsByCategory(categoryName:String)
@@ -21,5 +24,8 @@ interface MealsContract {
 
         fun sortAsc()
         fun sortDesc()
+
+        fun insertMeal(mealEntity: MealEntity)
+        fun getMealsForUser(userId:Long)
     }
 }
