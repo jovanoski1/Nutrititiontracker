@@ -28,19 +28,20 @@ import com.example.nutrititiontracker.presentation.view.states.MealsState
 import com.example.nutrititiontracker.presentation.viewmodel.CategoriesViewModel
 import com.example.nutrititiontracker.presentation.viewmodel.MealsViewModel
 import org.koin.androidx.viewmodel.ext.android.sharedViewModel
+import org.koin.androidx.viewmodel.ext.android.viewModel
 
 
 class CategoriesFragment : Fragment() {
 
     private val categoriesViewModel: CategoriesContract.ViewModel by sharedViewModel<CategoriesViewModel>()
-    private val mealsViewModel: MealsContract.ViewModel by sharedViewModel<MealsViewModel>()
+    private val mealsViewModel: MealsContract.ViewModel by viewModel<MealsViewModel>()
 
 
     private var _binding: FragmentCategoriesBinding? = null
     private val binding get() = _binding!!
     private lateinit var categoryAdapter: CategoryAdapter
     private lateinit var mealAdapter: MealAdapter
-    private var mainIngredientMealNameToggle: Boolean = false
+//    private var mainIngredientMealNameToggle: Boolean = false
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
     }
@@ -131,6 +132,7 @@ class CategoriesFragment : Fragment() {
                 }
                 else -> {
                     println("CEKAJ Meals $it")
+                    mealAdapter.submitList(listOf())
                     binding.loadingPb.isVisible = false
                     binding.listRv.isVisible = true
                 }
@@ -153,34 +155,35 @@ class CategoriesFragment : Fragment() {
                 else{
                     binding.listRv.adapter = mealAdapter
                 }
-                if (mainIngredientMealNameToggle){
+                if (binding.toggleBtn.isChecked){
                     mealsViewModel.fetchAllMealsByMainIngredient(p0.toString())
                 }
                 else{
                     if (p0.toString().length == 1)
                         mealsViewModel.fetchAllMealsByFirstLetter(p0.toString()[0])
                     else {
-                        var myList = mealAdapter.currentList
-//                        when(mealsViewModel.mealState.value){
-//                            is MealsState.Success -> {myList = (mealsViewModel.mealState.value as MealsState.Success).meals}
+                        mealsViewModel.fetchMealByName(p0.toString())
+//                        var myList = mealAdapter.currentList
+////                        when(mealsViewModel.mealState.value){
+////                            is MealsState.Success -> {myList = (mealsViewModel.mealState.value as MealsState.Success).meals}
+////                        }
+//                        println(p0.toString())
+//                        myList = (mealsViewModel.mealState.value as MealsState.Success).meals.filter{ item->
+//                            item.strMeal.startsWith(p0.toString(), true)
 //                        }
-                        println(p0.toString())
-                        myList = (mealsViewModel.mealState.value as MealsState.Success).meals.filter{ item->
-                            item.strMeal.startsWith(p0.toString(), true)
-                        }
-                        mealAdapter.submitList(myList)
+//                        mealAdapter.submitList(myList)
                     }
                 }
             }
 
         })
 
-        binding.mealNameMainPageBtn.setOnClickListener {
-            mainIngredientMealNameToggle = false
-        }
-        binding.mainIngredientMainPageBtn.setOnClickListener{
-            mainIngredientMealNameToggle = true
-        }
+//        binding.mealNameMainPageBtn.setOnClickListener {
+//            mainIngredientMealNameToggle = false
+//        }
+//        binding.mainIngredientMainPageBtn.setOnClickListener{
+//            mainIngredientMealNameToggle = true
+//        }
     }
 
     override fun onDestroy() {

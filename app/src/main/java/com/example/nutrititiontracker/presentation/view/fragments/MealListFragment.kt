@@ -29,7 +29,6 @@ class MealListFragment : Fragment() {
     private var meals:List<MealResponse> = listOf()
     private var maxPageCnt: Int = 0
     private var currentPage: Int = 1
-    private var mainIngredientMealNameToggle: Boolean = false
 
     private var _binding: FragmentMealListBinding? = null
     private val binding get() = _binding!!
@@ -94,6 +93,7 @@ class MealListFragment : Fragment() {
                     println("CEKAJ Meals $it")
 //                    meals.clear()
 //                    mealAdapter.submitList(meals)
+                    mealAdapter.submitList(listOf())
                     binding.loadingPbMl.isVisible = false
                     binding.listRv.isVisible = true
                 }
@@ -128,26 +128,15 @@ class MealListFragment : Fragment() {
             }
 
             override fun afterTextChanged(p0: Editable?) {
-                if (mainIngredientMealNameToggle){
+                if (binding.toggleBtn.isChecked){
                     mealsViewModel.fetchAllMealsByMainIngredient(p0.toString())
                 }
                 else{
                     mealsViewModel.fetchMealByName(p0.toString())
-//                    if (p0.toString().length == 1)
-//                        mealsViewModel.fetchAllMealsByFirstLetter(p0.toString()[0])
-//                    else {
-//                        mealsViewModel.fetchMealByName(p0.toString())
-//                    }
                 }
             }
 
         })
 
-        binding.mealNameMealListPageBtn.setOnClickListener {
-            mainIngredientMealNameToggle = false
-        }
-        binding.mainIngredientMealListPageBtn.setOnClickListener{
-            mainIngredientMealNameToggle = true
-        }
     }
 }
