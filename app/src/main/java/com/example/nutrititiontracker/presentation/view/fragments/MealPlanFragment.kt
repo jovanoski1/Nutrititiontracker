@@ -1,23 +1,22 @@
 package com.example.nutrititiontracker.presentation.view.fragments
 
+import android.content.Intent
 import android.content.SharedPreferences
+import android.net.Uri
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.GridLayoutManager
 import com.example.nutrititiontracker.data.models.MealEntity
 import com.example.nutrititiontracker.data.models.MealResponse
 import com.example.nutrititiontracker.data.models.MealType
 import com.example.nutrititiontracker.databinding.FragmentMealPlanBinding
-import com.example.nutrititiontracker.presentation.view.dialogs.CategoryDetailsDialog
 import com.example.nutrititiontracker.presentation.view.dialogs.MealPlanDialog
 import com.example.nutrititiontracker.presentation.view.recycler.adapter.PlanGridAdapter
 import com.example.nutrititiontracker.presentation.view.recycler.listeners.GridPlanClickListener
-import com.example.nutrititiontracker.presentation.view.recycler.listeners.MealClickListener
 import com.example.nutrititiontracker.presentation.view.recycler.listeners.MealPlanMealClickListener
-import com.example.nutrititiontracker.presentation.view.recycler.listeners.MyMealClickListener
 import org.koin.android.ext.android.inject
 import java.util.*
 
@@ -47,6 +46,15 @@ class MealPlanFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         initUi()
+
+        binding.sendBtn.setOnClickListener {
+            val recipient = binding.emailEt.text.toString().trim()
+            val subject = "Meal Plan".toString().trim()
+            val message = formatEmail().toString().trim()
+
+            sendEmail(recipient, subject, message)
+            println(formatEmail())
+        }
     }
 
     private fun initUi() {
@@ -57,7 +65,10 @@ class MealPlanFragment : Fragment() {
                 MealPlanDialog(object : MealPlanMealClickListener{
                     override fun onMyMealClick(mealEntity: MealEntity) {
                         val mealListCopy = mealEntitiesOrg.toMutableList()
-                        mealListCopy[index] = mealEntity
+                        val mealTypeValues:Array<MealType> = MealType.values()
+                        val mealCopy = mealEntity.copy()
+                        mealCopy.mealType = mealTypeValues[index%4]
+                        mealListCopy[index] = mealCopy
                         mealEntitiesOrg = mealListCopy
                         adapter.submitList(mealEntitiesOrg)
                         println("USAOOOO")
@@ -82,7 +93,7 @@ class MealPlanFragment : Fragment() {
         val mealEntities = mutableListOf<MealEntity>()
         for (i in 0 until 28) {
             val mealEntity = MealEntity(
-                id = 599,
+                id = 3352,
                 name = i.toString(),
                 category = null,
                 plannedDate = Date(),
@@ -191,5 +202,58 @@ class MealPlanFragment : Fragment() {
         )
     }
 
+    private fun formatEmail(): String{
+        val builder = StringBuilder()
+        val dayList = listOf<String>("Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday")
 
+        val groups = mealEntitiesOrg.chunked(4)
+        var cnt = 0
+        for (group in groups) {
+            builder.append(dayList[cnt] +": \n")
+
+            for (element in group) {
+                if (element.id!=3352L){
+                    builder.append(element.toString())
+                }
+            }
+            cnt++
+            builder.append("-----------\n")
+        }
+        return builder.toString()
+    }
+
+    private fun sendEmail(recipient:String, subject:String, message:String){
+
+//        val intent = Intent(Intent.ACTION_SENDTO).apply {
+//            data = Uri.parse("mailto:") // Specify the "mailto:" scheme
+//            putExtra(Intent.EXTRA_EMAIL, arrayOf(recipient)) // Set the recipient email address
+//            putExtra(Intent.EXTRA_SUBJECT, subject) // Set the email subject
+//            putExtra(Intent.EXTRA_TEXT, message) // Set thmihae email body
+//        }
+//
+//        if (context?.let { intent.resolveActivity(it.packageManager) } != null) {
+//            context?.startActivity(intent) // Start the activity for sending email
+//        } else {
+//            // No email client app is available
+//            Toast.makeText(context, "No email app found", Toast.LENGTH_SHORT).show()
+//        }
+
+//        val emailIntent = Intent(Intent.ACTION_SENDTO, Uri.parse("mailto:$recipient"))
+//        emailIntent.putExtra(Intent.EXTRA_SUBJECT, subject)
+//        emailIntent.putExtra(Intent.EXTRA_TEXT, message)
+//        startActivity(Intent.createChooser(emailIntent, "Chooser Title"))
+
+        val mIntent = Intent(Intent.ACTION_SENDTO)
+        mIntent.type = "text/plain"
+        mIntent.data = Uri.parse("mailto:")
+        mIntent.putExtra(Intent.EXTRA_EMAIL, arrayOf(recipient))
+        mIntent.putExtra(Intent.EXTRA_SUBJECT, subject)
+        mIntent.putExtra(Intent.EXTRA_TEXT, message)
+
+        try {
+            startActivity(Intent.createChooser(mIntent,"Choose Email Client"))
+        }catch (e:java.lang.Exception){
+            println(e.message)
+        }
+    }
 }

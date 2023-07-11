@@ -57,4 +57,12 @@ data class MealEntity(
     val strMeasure19: String?,
     val strMeasure20: String?,
     @ColumnInfo(name = "user_id") val userId: Long
-):java.io.Serializable
+):java.io.Serializable{
+    override fun toString(): String {
+        val builder = StringBuilder()
+        builder.append("Meal Name: $name\n")
+        builder.append("Meal Type: $mealType\n")
+        builder.append("Instructions: $urlToVideo\n")
+        return builder.toString()
+    }
+}
