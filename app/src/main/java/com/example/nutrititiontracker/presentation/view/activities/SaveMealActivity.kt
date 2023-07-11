@@ -75,11 +75,12 @@ class SaveMealActivity : AppCompatActivity() {
             val id:Long = sharedPreferences.getLong("userId", -1L)
 
             val day = binding.datePicker.dayOfMonth
-            val month = binding.datePicker.month + 1
+            val month = binding.datePicker.month
             val year = binding.datePicker.year
             val calendar = Calendar.getInstance()
             calendar.set(year, month, day)
 
+            println("SAVE + " + month)
             mealsViewModel.insertMeal(MealEntity(
                 category = mealToSave.strCategory,
                 plannedDate = calendar.time,

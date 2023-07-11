@@ -55,7 +55,7 @@ class EditMyMealActivity : AppCompatActivity() {
 
         binding.saveMealBtn.setOnClickListener {
             val day = binding.datePicker.dayOfMonth
-            val month = binding.datePicker.month + 1
+            val month = binding.datePicker.month
             val year = binding.datePicker.year
             val calendar = Calendar.getInstance()
             calendar.set(year, month, day)

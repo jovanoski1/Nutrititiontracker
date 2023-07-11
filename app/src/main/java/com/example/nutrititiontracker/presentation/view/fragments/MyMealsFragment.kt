@@ -15,6 +15,7 @@ import com.example.nutrititiontracker.data.models.MealEntity
 import com.example.nutrititiontracker.databinding.FragmentMyMealsBinding
 import com.example.nutrititiontracker.presentation.contract.MealsContract
 import com.example.nutrititiontracker.presentation.view.activities.EditMyMealActivity
+import com.example.nutrititiontracker.presentation.view.dialogs.StatsDialog
 import com.example.nutrititiontracker.presentation.view.recycler.adapter.MyMealAdapter
 import com.example.nutrititiontracker.presentation.view.recycler.listeners.MyMealClickListener
 import com.example.nutrititiontracker.presentation.viewmodel.MealsViewModel
@@ -87,6 +88,9 @@ class MyMealsFragment : Fragment() {
             }
 
         })
+        binding.statsBtn.setOnClickListener {
+            StatsDialog().show(parentFragmentManager, "Start dialog")
+        }
     }
 
 
