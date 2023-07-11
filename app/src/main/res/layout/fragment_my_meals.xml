@@ -4,6 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:background="@color/my_green_bg"
     tools:context=".presentation.view.fragments.MyMealsFragment">
 
     <LinearLayout
@@ -23,6 +24,7 @@
             android:paddingStart="10dp"
             android:paddingEnd="10dp"
             android:hint="Search my meals"
+            android:background="@drawable/round_red_border"
             android:layout_weight="5"
             android:textSize="22sp"
             />
@@ -41,6 +43,7 @@
         android:id="@+id/listRv"
         android:layout_width="0dp"
         android:layout_height="0dp"
+        android:layout_marginTop="5dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@id/header"

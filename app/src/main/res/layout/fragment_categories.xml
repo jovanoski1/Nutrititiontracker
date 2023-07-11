@@ -5,6 +5,7 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:layout_gravity="center"
+    android:background="@color/my_green_bg"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <ProgressBar
@@ -34,24 +35,6 @@
             android:textOff="By name"
             android:textOn="By main ingredient "/>
 
-<!--        <androidx.appcompat.widget.AppCompatButton-->
-<!--            android:id="@+id/mainIngredientMainPageBtn"-->
-<!--            android:layout_width="wrap_content"-->
-<!--            android:layout_height="match_parent"-->
-<!--            android:text="Main Ingredient"-->
-<!--            android:background="@drawable/calories_frag_button"-->
-<!--            android:layout_weight="1"-->
-<!--            android:textColor="@color/my_white"/>-->
-
-<!--        <androidx.appcompat.widget.AppCompatButton-->
-<!--            android:id="@+id/mealNameMainPageBtn"-->
-<!--            android:layout_width="wrap_content"-->
-<!--            android:layout_height="match_parent"-->
-<!--            android:background="@drawable/calories_frag_button_disabled"-->
-<!--            android:text="Meal name"-->
-<!--            android:layout_weight="1"-->
-<!--            android:textColor="@color/my_white"/>-->
-
     </LinearLayout>
 
     <EditText
@@ -64,12 +47,14 @@
         android:paddingEnd="15dp"
         android:textSize="22sp"
         android:hint="Search"
+        android:background="@drawable/round_red_border"
         />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/listRv"
         android:layout_width="0dp"
         android:layout_height="0dp"
+        android:layout_marginTop="5dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@id/searchMainPageEt"
