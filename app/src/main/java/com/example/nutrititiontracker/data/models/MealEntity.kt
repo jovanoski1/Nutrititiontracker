@@ -3,9 +3,11 @@ package com.example.nutrititiontracker.data.models
 import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.PrimaryKey
+import com.squareup.moshi.JsonClass
 import java.util.*
 
 @Entity(tableName = "meals")
+@JsonClass(generateAdapter = true)
 data class MealEntity(
     @PrimaryKey(autoGenerate = true)
     val id:Long = 0,
@@ -58,7 +60,7 @@ data class MealEntity(
     val strMeasure20: String?,
     @ColumnInfo(name = "user_id") val userId: Long
 ):java.io.Serializable{
-    override fun toString(): String {
+    fun toString2(): String {
         val builder = StringBuilder()
         builder.append("Meal Name: $name\n")
         builder.append("Meal Type: $mealType\n")

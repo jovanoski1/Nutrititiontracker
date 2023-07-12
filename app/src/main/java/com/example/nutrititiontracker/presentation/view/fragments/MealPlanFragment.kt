@@ -17,16 +17,22 @@ import com.example.nutrititiontracker.presentation.view.dialogs.MealPlanDialog
 import com.example.nutrititiontracker.presentation.view.recycler.adapter.PlanGridAdapter
 import com.example.nutrititiontracker.presentation.view.recycler.listeners.GridPlanClickListener
 import com.example.nutrititiontracker.presentation.view.recycler.listeners.MealPlanMealClickListener
+import com.squareup.moshi.Moshi
+import com.squareup.moshi.Types
+import com.squareup.moshi.adapters.Rfc3339DateJsonAdapter
 import org.koin.android.ext.android.inject
+import java.net.URLEncoder
 import java.util.*
+
 
 class MealPlanFragment : Fragment() {
 
     private var _binding: FragmentMealPlanBinding? = null
     private val binding get() = _binding!!
     private lateinit var adapter: PlanGridAdapter
-    private var mealEntitiesOrg = listOf<MealEntity>()
+    private var mealEntitiesOrg:List<MealEntity> = listOf()
     private val sharedPreferences: SharedPreferences by inject()
+    private var flag: Boolean = false
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -47,6 +53,91 @@ class MealPlanFragment : Fragment() {
 
         initUi()
 
+        println("USAO VIEW CREATEd")
+        val bundle = arguments
+        val mealPlan = sharedPreferences.getString("mealPlanShared", "")
+        if (mealPlan!=null && mealPlan!=""){
+//            val data = bundle.getSerializable("mealPlanShared") as String
+            val moshi = Moshi.Builder()
+                .add(Date::class.java, Rfc3339DateJsonAdapter())
+                .build()
+            val type = Types.newParameterizedType(
+                List::class.java,
+                MealEntity::class.java
+            )
+            val jsonAdapter = moshi.adapter<List<MealEntity>>(type)
+            val mealResponse = jsonAdapter.fromJson(mealPlan)
+            if (mealResponse != null) {
+                println(mealResponse.forEach {
+                    println(it)
+                })
+                mealEntitiesOrg = mealResponse
+                adapter.submitList(mealEntitiesOrg)
+                println("SUBMIT MOJ")
+            }
+        }
+        else{
+            val mealEntities = mutableListOf<MealEntity>()
+            for (i in 0 until 28) {
+                val mealEntity = MealEntity(
+                    id = 3352,
+                    name = i.toString(),
+                    category = null,
+                    plannedDate = Date(),
+                    mealType = MealType.BREAKFAST, // Replace with the appropriate meal type
+                    image = "https://www.themealdb.com/images/media/meals/sypxpx1515365095.jpg",
+                    instructions = null,
+                    urlToVideo = null,
+                    strIngredient1 = null,
+                    strIngredient2 = null,
+                    strIngredient3 = null,
+                    strIngredient4 = null,
+                    strIngredient5 = null,
+                    strIngredient6 = null,
+                    strIngredient7 = null,
+                    strIngredient8 = null,
+                    strIngredient9 = null,
+                    strIngredient10 = null,
+                    strIngredient11 = null,
+                    strIngredient12 = null,
+                    strIngredient13 = null,
+                    strIngredient14 = null,
+                    strIngredient15 = null,
+                    strIngredient16 = null,
+                    strIngredient17 = null,
+                    strIngredient18 = null,
+                    strIngredient19 = null,
+                    strIngredient20 = null,
+                    strMeasure1 = null,
+                    strMeasure2 = null,
+                    strMeasure3 = null,
+                    strMeasure4 = null,
+                    strMeasure5 = null,
+                    strMeasure6 = null,
+                    strMeasure7 = null,
+                    strMeasure8 = null,
+                    strMeasure9 = null,
+                    strMeasure10 = null,
+                    strMeasure11 = null,
+                    strMeasure12 = null,
+                    strMeasure13 = null,
+                    strMeasure14 = null,
+                    strMeasure15 = null,
+                    strMeasure16 = null,
+                    strMeasure17 = null,
+                    strMeasure18 = null,
+                    strMeasure19 = null,
+                    strMeasure20 = null,
+                    userId = 0 // Replace with the appropriate user ID
+                )
+                mealEntities.add(mealEntity)
+            }
+
+            mealEntitiesOrg = mealEntities.toList()
+            println("SUBMIT 1")
+            adapter.submitList(mealEntitiesOrg)
+        }
+
         binding.sendBtn.setOnClickListener {
             val recipient = binding.emailEt.text.toString().trim()
             val subject = "Meal Plan".toString().trim()
@@ -59,7 +150,6 @@ class MealPlanFragment : Fragment() {
 
     private fun initUi() {
         binding.listRv.layoutManager = GridLayoutManager(context, 4)
-
         adapter = PlanGridAdapter(object : GridPlanClickListener {
             override fun onItemClick(index: Int) {
                 MealPlanDialog(object : MealPlanMealClickListener{
@@ -90,64 +180,7 @@ class MealPlanFragment : Fragment() {
 
         binding.listRv.adapter = adapter
 
-        val mealEntities = mutableListOf<MealEntity>()
-        for (i in 0 until 28) {
-            val mealEntity = MealEntity(
-                id = 3352,
-                name = i.toString(),
-                category = null,
-                plannedDate = Date(),
-                mealType = MealType.BREAKFAST, // Replace with the appropriate meal type
-                image = "https://www.themealdb.com/images/media/meals/sypxpx1515365095.jpg",
-                instructions = null,
-                urlToVideo = null,
-                strIngredient1 = null,
-                strIngredient2 = null,
-                strIngredient3 = null,
-                strIngredient4 = null,
-                strIngredient5 = null,
-                strIngredient6 = null,
-                strIngredient7 = null,
-                strIngredient8 = null,
-                strIngredient9 = null,
-                strIngredient10 = null,
-                strIngredient11 = null,
-                strIngredient12 = null,
-                strIngredient13 = null,
-                strIngredient14 = null,
-                strIngredient15 = null,
-                strIngredient16 = null,
-                strIngredient17 = null,
-                strIngredient18 = null,
-                strIngredient19 = null,
-                strIngredient20 = null,
-                strMeasure1 = null,
-                strMeasure2 = null,
-                strMeasure3 = null,
-                strMeasure4 = null,
-                strMeasure5 = null,
-                strMeasure6 = null,
-                strMeasure7 = null,
-                strMeasure8 = null,
-                strMeasure9 = null,
-                strMeasure10 = null,
-                strMeasure11 = null,
-                strMeasure12 = null,
-                strMeasure13 = null,
-                strMeasure14 = null,
-                strMeasure15 = null,
-                strMeasure16 = null,
-                strMeasure17 = null,
-                strMeasure18 = null,
-                strMeasure19 = null,
-                strMeasure20 = null,
-                userId = 0 // Replace with the appropriate user ID
-            )
-            mealEntities.add(mealEntity)
-        }
 
-        mealEntitiesOrg = mealEntities
-        adapter.submitList(mealEntitiesOrg)
     }
     fun MealResponse.toMealEntity(userId: Long, mealType: MealType): MealEntity {
         return MealEntity(
@@ -213,7 +246,7 @@ class MealPlanFragment : Fragment() {
 
             for (element in group) {
                 if (element.id!=3352L){
-                    builder.append(element.toString())
+                    builder.append(element.toString2())
                 }
             }
             cnt++
@@ -224,31 +257,24 @@ class MealPlanFragment : Fragment() {
 
     private fun sendEmail(recipient:String, subject:String, message:String){
 
-//        val intent = Intent(Intent.ACTION_SENDTO).apply {
-//            data = Uri.parse("mailto:") // Specify the "mailto:" scheme
-//            putExtra(Intent.EXTRA_EMAIL, arrayOf(recipient)) // Set the recipient email address
-//            putExtra(Intent.EXTRA_SUBJECT, subject) // Set the email subject
-//            putExtra(Intent.EXTRA_TEXT, message) // Set thmihae email body
-//        }
-//
-//        if (context?.let { intent.resolveActivity(it.packageManager) } != null) {
-//            context?.startActivity(intent) // Start the activity for sending email
-//        } else {
-//            // No email client app is available
-//            Toast.makeText(context, "No email app found", Toast.LENGTH_SHORT).show()
-//        }
+        println("mealsOrg " + mealEntitiesOrg.size)
 
-//        val emailIntent = Intent(Intent.ACTION_SENDTO, Uri.parse("mailto:$recipient"))
-//        emailIntent.putExtra(Intent.EXTRA_SUBJECT, subject)
-//        emailIntent.putExtra(Intent.EXTRA_TEXT, message)
-//        startActivity(Intent.createChooser(emailIntent, "Chooser Title"))
+        val moshi = Moshi.Builder()
+            .add(Date::class.java, Rfc3339DateJsonAdapter())
+            .build()
+        val type = Types.newParameterizedType(
+            List::class.java,
+            MealEntity::class.java
+        )
+        val jsonAdapter = moshi.adapter<List<MealEntity>>(type)
 
         val mIntent = Intent(Intent.ACTION_SENDTO)
         mIntent.type = "text/plain"
         mIntent.data = Uri.parse("mailto:")
         mIntent.putExtra(Intent.EXTRA_EMAIL, arrayOf(recipient))
         mIntent.putExtra(Intent.EXTRA_SUBJECT, subject)
-        mIntent.putExtra(Intent.EXTRA_TEXT, message)
+        println(jsonAdapter.toJson(mealEntitiesOrg) + " prokic ")
+        mIntent.putExtra(Intent.EXTRA_TEXT, "$message \n www.miha.rs/?"+ URLEncoder.encode(jsonAdapter.toJson(mealEntitiesOrg)))
 
         try {
             startActivity(Intent.createChooser(mIntent,"Choose Email Client"))
