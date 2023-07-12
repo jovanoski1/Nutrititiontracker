@@ -11,6 +11,8 @@
     
     <color name="my_green">#4CB944</color>
     <color name="my_blue">#246EB9</color>
+    <color name="my_blue_lighter">#77ADE4</color>
+    <color name="my_blue_bg">#BBD6F2</color>
     <color name="my_green_lighter">#7FCD79</color>
     <color name="my_green_bg">#C5E9C3</color>
     <color name="my_green_darker">#378632</color>

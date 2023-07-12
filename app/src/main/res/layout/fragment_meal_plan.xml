@@ -3,6 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/my_green_bg"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".presentation.view.fragments.MealPlanFragment">
 
@@ -24,6 +25,8 @@
             android:paddingStart="10dp"
             android:paddingEnd="10dp"
             android:hint="Email"
+            android:textColor="@color/black"
+            android:background = "@drawable/round_red_border"
             android:textSize="22sp"
             />
         <androidx.appcompat.widget.AppCompatButton

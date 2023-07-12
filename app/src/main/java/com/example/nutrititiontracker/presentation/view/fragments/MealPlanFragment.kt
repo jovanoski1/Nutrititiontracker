@@ -85,7 +85,7 @@ class MealPlanFragment : Fragment() {
                     category = null,
                     plannedDate = Date(),
                     mealType = MealType.BREAKFAST, // Replace with the appropriate meal type
-                    image = "https://www.themealdb.com/images/media/meals/sypxpx1515365095.jpg",
+                    image = null,
                     instructions = null,
                     urlToVideo = null,
                     strIngredient1 = null,

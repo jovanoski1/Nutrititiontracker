@@ -35,6 +35,8 @@ class MainActivity : AppCompatActivity() {
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
+        sharedPreferences.edit().remove("mealPlanShared").apply()
+
         loadFragment(CategoriesFragment())
         bottomNav = binding.bottomNavigation as BottomNavigationView
         bottomNav.setOnItemSelectedListener {

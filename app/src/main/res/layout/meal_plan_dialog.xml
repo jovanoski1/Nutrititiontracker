@@ -4,7 +4,8 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="500dp"
-    android:minHeight="500dp">
+    android:minHeight="500dp"
+    android:background="@color/my_green_bg">
 
 
 
@@ -35,6 +36,7 @@
             android:paddingStart="10dp"
             android:paddingEnd="10dp"
             android:hint="Search my meals"
+            android:background="@drawable/round_red_border"
             android:layout_weight="5"
             android:textSize="22sp"
             />
