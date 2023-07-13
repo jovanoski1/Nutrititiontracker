@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <style name="MyDatePicker" >
+        <!-- Text color -->
+        <item name="android:textColorPrimary">@color/my_white</item>
+        <!-- Divider color -->
+        <item name="colorControlNormal">@color/my_white</item>
+    </style>
+</resources>

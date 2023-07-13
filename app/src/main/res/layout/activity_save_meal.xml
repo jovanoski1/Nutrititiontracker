@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/my_green_bg"
     tools:context=".presentation.view.activities.SaveMealActivity">
 
     <ProgressBar
@@ -29,6 +30,8 @@
     <TextView
         android:id="@+id/mealNameTv"
         android:layout_marginTop="20dp"
+        android:layout_marginStart="20dp"
+        android:layout_marginEnd="20dp"
         android:textColor="@color/black"
         android:gravity="center"
         android:textSize="32sp"
@@ -54,10 +57,13 @@
 
     <Spinner
         android:id="@+id/mealSpinner"
+        android:background="@drawable/round_red_border"
         android:layout_marginTop="20dp"
+        android:layout_marginStart="20dp"
+        android:layout_marginEnd="20dp"
         android:paddingStart="20dp"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="40dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@id/tv1"
@@ -81,6 +87,10 @@
         android:id="@+id/datePicker"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:background="@color/my_green"
+        android:layout_marginStart="20dp"
+        android:layout_marginEnd="20dp"
+        android:theme="@style/MyDatePicker"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@id/tv2"
@@ -88,12 +98,14 @@
         android:calendarViewShown="false"
         />
 
-    <androidx.appcompat.widget.AppCompatButton
+    <Button
         android:id="@+id/saveMealBtn"
         android:text="Save meal"
-        android:layout_marginTop="20dp"
+        android:layout_marginStart="20dp"
+        android:layout_marginEnd="20dp"
+        android:layout_marginTop="10dp"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="50dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@id/datePicker"

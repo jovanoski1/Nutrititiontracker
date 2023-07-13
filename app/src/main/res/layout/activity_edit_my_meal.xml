@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/my_green_bg"
     tools:context=".presentation.view.activities.EditMyMealActivity">
 
     <ImageView
@@ -18,6 +19,8 @@
     <EditText
         android:id="@+id/mealNameTv"
         android:layout_marginTop="20dp"
+        android:layout_marginStart="20dp"
+        android:layout_marginEnd="20dp"
         android:textColor="@color/black"
         android:gravity="center"
         android:textSize="32sp"
@@ -45,8 +48,11 @@
         android:id="@+id/mealSpinner"
         android:layout_marginTop="20dp"
         android:paddingStart="20dp"
+        android:layout_marginStart="20dp"
+        android:layout_marginEnd="20dp"
+        android:background="@drawable/round_red_border"
+        android:layout_height="40dp"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@id/tv1"
@@ -70,29 +76,33 @@
         android:id="@+id/datePicker"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:theme="@style/MyDatePicker"
+        android:background="@color/my_green"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@id/tv2"
         android:datePickerMode="spinner"
+        android:layout_marginStart="20dp"
+        android:layout_marginEnd="20dp"
         android:calendarViewShown="false"
         />
 
-    <androidx.appcompat.widget.AppCompatButton
+    <Button
         android:id="@+id/saveMealBtn"
         android:text="Save meal"
-        android:layout_marginTop="0dp"
-        android:layout_width="150dp"
+        android:layout_marginTop="10dp"
+        android:layout_width="165dp"
         android:layout_height="wrap_content"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toStartOf="@id/cancelBtn"
         app:layout_constraintTop_toBottomOf="@id/datePicker"
         />
 
-    <androidx.appcompat.widget.AppCompatButton
+    <Button
         android:id="@+id/cancelBtn"
         android:text="Cancel"
-        android:layout_marginTop="0dp"
-        android:layout_width="150dp"
+        android:layout_marginTop="10dp"
+        android:layout_width="165dp"
         android:layout_height="wrap_content"
         app:layout_constraintStart_toEndOf="@id/saveMealBtn"
         app:layout_constraintEnd_toEndOf="parent"
