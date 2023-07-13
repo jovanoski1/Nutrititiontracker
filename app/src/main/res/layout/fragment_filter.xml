@@ -34,7 +34,10 @@
             android:layout_height="match_parent"
             android:text="By category"
             android:layout_weight="1"
-            android:textColor="@color/black"/>
+            android:layout_marginStart="2dp"
+            android:layout_marginEnd="2dp"
+            android:textColor="@color/my_white"
+            android:background="@drawable/custom_red_button" />
 
         <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/areaBtn"
@@ -42,7 +45,11 @@
             android:layout_height="match_parent"
             android:text="By area"
             android:layout_weight="1"
-            android:textColor="@color/black"/>
+            android:layout_marginStart="2dp"
+            android:layout_marginEnd="2dp"
+            android:textColor="@color/my_white"
+            android:background="@drawable/custom_red_button"
+            />
 
         <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/ingredientBtn"
@@ -50,7 +57,10 @@
             android:layout_height="match_parent"
             android:text="By ingredient"
             android:layout_weight="1"
-            android:textColor="@color/black"/>
+            android:layout_marginStart="2dp"
+            android:layout_marginEnd="2dp"
+            android:textColor="@color/my_white"
+            android:background="@drawable/custom_red_button" />
 
     </LinearLayout>
 
@@ -61,26 +71,34 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@id/linear2"
+        android:layout_marginTop="5dp"
         android:orientation="horizontal">
 
         <Spinner
-            android:layout_weight="1"
             android:id="@+id/spinner"
             android:layout_width="wrap_content"
+            android:background="@drawable/round_red_border"
             android:minHeight="50dp"
+            android:minWidth="210dp"
             android:layout_height="wrap_content" />
 
         <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/sortAscBtn"
             android:text="Sort ASC"
+            android:layout_marginStart="2dp"
+            android:layout_marginEnd="2dp"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
+            android:textColor="@color/my_white"
+            android:background="@drawable/custom_red_button"
             />
         <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/sortDescBtn"
             android:text="Sort DESC"
+            android:textColor="@color/my_white"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
+            android:background="@drawable/custom_red_button"
             />
 
     </LinearLayout>
@@ -93,6 +111,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/linear1"
         android:paddingStart="15dp"
+        android:layout_marginTop="10dp"
         android:background="@drawable/round_red_border"
         android:paddingEnd="15dp"
         android:textSize="22sp"

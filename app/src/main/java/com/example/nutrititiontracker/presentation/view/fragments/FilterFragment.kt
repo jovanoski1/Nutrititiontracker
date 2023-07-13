@@ -9,6 +9,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.AdapterView
+import androidx.appcompat.content.res.AppCompatResources.getDrawable
 import androidx.core.view.isVisible
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -144,12 +145,22 @@ class FilterFragment : Fragment() {
 
         binding.areaBtn.setOnClickListener{
             binding.spinner.adapter = areaSpinnerAdapter
+            binding.areaBtn.setBackgroundDrawable(context?.let { it1 -> getDrawable(it1, R.drawable.custom_red_button_disabled) })
+            binding.categoryBtn.setBackgroundDrawable(context?.let { it1 -> getDrawable(it1, R.drawable.custom_red_button) })
+            binding.ingredientBtn.setBackgroundDrawable(context?.let { it1 -> getDrawable(it1, R.drawable.custom_red_button) })
+
         }
         binding.categoryBtn.setOnClickListener{
             binding.spinner.adapter = categorySpinnerAdapter
+            binding.areaBtn.setBackgroundDrawable(context?.let { it1 -> getDrawable(it1, R.drawable.custom_red_button) })
+            binding.categoryBtn.setBackgroundDrawable(context?.let { it1 -> getDrawable(it1, R.drawable.custom_red_button_disabled) })
+            binding.ingredientBtn.setBackgroundDrawable(context?.let { it1 -> getDrawable(it1, R.drawable.custom_red_button) })
         }
         binding.ingredientBtn.setOnClickListener{
             binding.spinner.adapter = ingredientSpinnerAdapter
+            binding.areaBtn.setBackgroundDrawable(context?.let { it1 -> getDrawable(it1, R.drawable.custom_red_button) })
+            binding.categoryBtn.setBackgroundDrawable(context?.let { it1 -> getDrawable(it1, R.drawable.custom_red_button) })
+            binding.ingredientBtn.setBackgroundDrawable(context?.let { it1 -> getDrawable(it1, R.drawable.custom_red_button_disabled) })
         }
 
         binding.previousBtn.setOnClickListener{

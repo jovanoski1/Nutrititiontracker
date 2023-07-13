@@ -6,6 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ArrayAdapter
 import android.widget.TextView
+import com.example.nutrititiontracker.R
 import com.example.nutrititiontracker.data.models.AreaResponse
 
 class AreaSpinnerAdapter(
@@ -25,7 +26,7 @@ class AreaSpinnerAdapter(
 
     private fun createView(position: Int, convertView: View?, parent: ViewGroup): View {
         val view = convertView ?: LayoutInflater.from(context)
-            .inflate(android.R.layout.simple_spinner_item, parent, false)
+            .inflate(R.layout.spinner_item, parent, false)
 
         val area = areaList[position]
         val attributeValue = when (attributeName) {
@@ -34,7 +35,7 @@ class AreaSpinnerAdapter(
             else -> ""
         }
 
-        val textView = view.findViewById<TextView>(android.R.id.text1)
+        val textView = view.findViewById<TextView>(R.id.spinnerTv)
         textView.text = attributeValue
 
         return view
