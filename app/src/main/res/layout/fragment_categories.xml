@@ -28,10 +28,11 @@
         app:layout_constraintEnd_toEndOf="parent"
         android:layout_marginTop="10sp">
 
-        <ToggleButton
+        <androidx.appcompat.widget.AppCompatToggleButton
             android:id="@+id/toggleBtn"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:theme="@style/SCBSwitch"
             android:textOff="By name"
             android:textOn="By main ingredient "/>
 

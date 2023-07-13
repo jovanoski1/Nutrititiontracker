@@ -5,6 +5,7 @@ import android.content.SharedPreferences
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import androidx.lifecycle.Observer
+import com.example.nutrititiontracker.data.models.UserEntity
 import com.example.nutrititiontracker.databinding.ActivityLoginBinding
 import com.example.nutrititiontracker.presentation.contract.CategoriesContract
 import com.example.nutrititiontracker.presentation.contract.UserContract
@@ -16,13 +17,15 @@ import org.koin.androidx.viewmodel.ext.android.viewModel
 class LoginActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityLoginBinding
-    private val userViewModel: UserContract.ViewModel by viewModel<UserViewModel>()
+    private val userViewModel: UserContract.ViewModel by  viewModel<UserViewModel>()
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityLoginBinding.inflate(layoutInflater)
         setContentView(binding.root)
+
+//        userViewModel.insertUser(UserEntity(1,"miha", "miha123"))
 
         initListener()
     }

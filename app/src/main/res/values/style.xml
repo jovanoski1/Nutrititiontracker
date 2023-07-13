@@ -6,4 +6,19 @@
         <!-- Divider color -->
         <item name="colorControlNormal">@color/my_white</item>
     </style>
+
+    <style name="SCBSwitch" parent="Theme.AppCompat.Light">
+        <!-- colorPrimary is used for the default action bar background -->
+
+        <!-- colorPrimaryDark is used for the status bar -->
+
+        <!-- colorAccent is used as the default value for colorControlActivated,
+             which is used to tint widgets -->
+
+        <item name="colorButtonNormal">@color/my_white</item>
+        <item name="colorAccent">@color/my_red</item>
+        <item name="colorControlNormal">@color/my_green_darker</item>
+        <!-- You can also set colorControlNormal, colorControlActivated
+             colorControlHighlight, and colorSwitchThumbNormal. -->
+    </style>
 </resources>

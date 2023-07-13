@@ -99,13 +99,14 @@ class FilterFragment : Fragment() {
     private fun initListeners(){
         binding.sortAscBtn.setOnClickListener{
             mealsViewModel.sortAsc()
-//            meals.sortedBy { it.strMeal }
-//            mealsAdapter.submitList(meals)
+            binding.sortAscBtn.setBackgroundDrawable(context?.let { it1 -> getDrawable(it1, R.drawable.custom_red_button_disabled) })
+            binding.sortDescBtn.setBackgroundDrawable(context?.let { it1 -> getDrawable(it1, R.drawable.custom_red_button) })
+
         }
         binding.sortDescBtn.setOnClickListener{
             mealsViewModel.sortDesc()
-//            meals.sortedByDescending { it.strMeal }
-//            mealsAdapter.submitList(meals)
+            binding.sortAscBtn.setBackgroundDrawable(context?.let { it1 -> getDrawable(it1, R.drawable.custom_red_button) })
+            binding.sortDescBtn.setBackgroundDrawable(context?.let { it1 -> getDrawable(it1, R.drawable.custom_red_button_disabled) })
         }
 
         binding.searchMealListPageEt.addTextChangedListener(object : TextWatcher {

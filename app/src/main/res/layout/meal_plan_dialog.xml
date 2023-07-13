@@ -45,6 +45,7 @@
             android:id="@+id/toggleButton"
             android:textOff="Local"
             android:textOn="Api"
+            android:theme="@style/SCBSwitch"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             app:layout_constraintBottom_toBottomOf="parent"
